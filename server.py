@@ -72,6 +72,28 @@ def git_add_all() -> str:
 
     except Exception as e:
         return f"Error staging changes: {str(e)}"
+    
+@mcp.tool
+def git_commit(message: str) -> str:
+    """
+    Commits staged changes with the provided commit message.
+    Example: git_commit("Add Git automation MCP tools")
+    """
+    try:
+        result = subprocess.run(
+            ["git", "commit", "-m", message],
+            cwd=MCP_AGENT_PATH,
+            capture_output=True,
+            text=True,
+            shell=True
+        )
+
+        if "nothing to commit" in result.stdout.lower():
+            return "⚠️ Nothing to commit — no staged changes."
+
+        return f"Commit created:\n{result.stdout}"
+    except Exception as e:
+        return f"Error committing changes: {str(e)}"
 
 
 if __name__ == "__main__":
