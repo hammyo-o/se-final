@@ -16,7 +16,6 @@ def run_cmd(cmd: list):
         print(e.stderr)
         sys.exit(1)
 
-
 def git_add(path="."):
     """
     Adds files to staging. Default = all files in working directory.
