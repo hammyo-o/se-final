@@ -1,57 +1,56 @@
 import subprocess
 import sys
+import os
 
+REPO_PATH = r"C:\Users\moust\mcp-agent"
 
 def run_cmd(cmd: list):
-    """Helper function to run a shell command and print the output."""
+    """Runs git command inside the repo directory."""
     try:
-        result = subprocess.run(cmd, check=True, text=True, capture_output=True)
+        result = subprocess.run(
+            cmd,
+            cwd=REPO_PATH,      
+            check=True,
+            text=True,
+            capture_output=True
+        )
         if result.stdout:
             print(result.stdout.strip())
         if result.stderr:
             print(result.stderr.strip())
         return result
+
     except subprocess.CalledProcessError as e:
         print("Command failed:", " ".join(cmd))
         print(e.stderr)
         sys.exit(1)
 
+
 def git_add(path="."):
-    """
-    Adds files to staging. Default = all files in working directory.
-    """
+    """Stage changes."""
     print(f"Staging changes ({path})...")
     run_cmd(["git", "add", path])
     print("Staged files")
 
 
 def git_commit(message: str):
-    """
-    Commits staged files with a commit message
-    """
+    """Commit staged files."""
     print(f"Committing changes: {message}")
     run_cmd(["git", "commit", "-m", message])
     print("Commit created")
 
 
 def git_push(remote="origin"):
-    """
-    Pushes current branch to the remote repository.
-    """
+    """Push current branch."""
     print("Pushing to remote...")
     run_cmd(["git", "push", "--set-upstream", remote, "HEAD"])
     print(f"Pushed to {remote}")
 
 
 def git_pull_request(base="main", title=None, body=None):
-    """
-    Creates a pull request using GitHub CLI (`gh`).
-    Requires: gh auth login
-    """
+    """Create PR via GitHub CLI."""
     if not title:
-        raise ValueError("title is required to create a pull request")
-
-    body = body or ""
+        raise ValueError("title is required")
 
     print("Creating pull request...")
 
@@ -59,7 +58,7 @@ def git_pull_request(base="main", title=None, body=None):
         "gh", "pr", "create",
         "--base", base,
         "--title", title,
-        "--body", body,
+        "--body", body or "",
     ])
 
     print("Pull request created successfully")
