@@ -89,11 +89,66 @@ def git_commit(message: str) -> str:
         )
 
         if "nothing to commit" in result.stdout.lower():
-            return "⚠️ Nothing to commit — no staged changes."
+            return "Nothing to commit — no staged changes."
 
         return f"Commit created:\n{result.stdout}"
     except Exception as e:
         return f"Error committing changes: {str(e)}"
+
+
+@mcp.tool
+def generate_spec_tests(method_name: str = "classifyNumber") -> str:
+    """
+    Generates a JUnit 5 test file using boundary value analysis and equivalence classes.
+    Currently supports the 'classifyNumber(int)' method.
+    """
+    try:
+        test_dir = os.path.join(JAVA_PROJECT_PATH, "src", "test", "java", "com", "example")
+        os.makedirs(test_dir, exist_ok=True)
+        test_file_path = os.path.join(test_dir, f"{method_name.capitalize()}SpecTest.java")
+
+        test_content = f"""
+package com.example;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class {method_name.capitalize()}SpecTest {{
+
+    @Test
+    public void testPositiveNumber() {{
+        assertEquals("Positive", App.{method_name}(1));
+    }}
+
+    @Test
+    public void testNegativeNumber() {{
+        assertEquals("Negative", App.{method_name}(-1));
+    }}
+
+    @Test
+    public void testZero() {{
+        assertEquals("Zero", App.{method_name}(0));
+    }}
+
+    @Test
+    public void testLargePositiveNumber() {{
+        assertEquals("Positive", App.{method_name}(Integer.MAX_VALUE));
+    }}
+
+    @Test
+    public void testLargeNegativeNumber() {{
+        assertEquals("Negative", App.{method_name}(Integer.MIN_VALUE));
+    }}
+}}
+"""
+
+        with open(test_file_path, "w") as f:
+            f.write(test_content.strip())
+
+        return f"Specification-based tests generated at: {test_file_path}"
+
+    except Exception as e:
+        return f"Error generating specification-based tests: {str(e)}"
 
 
 if __name__ == "__main__":

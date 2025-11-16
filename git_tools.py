@@ -60,5 +60,4 @@ def git_pull_request(base="main", title=None, body=None):
         "--title", title,
         "--body", body or "",
     ])
-
     print("Pull request created successfully")
