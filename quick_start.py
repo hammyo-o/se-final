@@ -7,6 +7,8 @@ import xml.etree.ElementTree as ET
 import re
 from google import genai
 import subprocess
+import time
+from google.genai import errors as genai_errors
 
 PROJECT_ROOT = Path(__file__).parent.resolve()
 CODEBASE_PATH = PROJECT_ROOT / "codebase"
@@ -29,17 +31,18 @@ if not jacoco_report.exists():
     print(f"   ❌ Coverage report not found: {jacoco_report}")
     print("\n   Generating coverage report with Maven...")
     try:
-        result = subprocess.run(
-            ["mvn", "clean", "verify"],
-            cwd=str(CODEBASE_PATH),
-            capture_output=True,
-            text=True,
-            shell=True,
-            timeout=300
-        )
+        with open(CODEBASE_PATH / "maven_output.txt", "w", encoding='utf-8') as f:
+            result = subprocess.run(
+                ["mvn", "clean", "verify", "-X"],
+                cwd=str(CODEBASE_PATH),
+                stdout=f,
+                stderr=subprocess.STDOUT,
+                text=True,
+                shell=True,
+                timeout=300
+            )
         if result.returncode != 0:
-            print("   ❌ Maven build failed!")
-            print(result.stdout[-500:] if result.stdout else "")
+            print("   ❌ Maven build failed! See maven_output.txt for details.")
             sys.exit(1)
         print("   ✅ Coverage report generated!")
     except Exception as e:
@@ -110,44 +113,59 @@ Requirements:
 - Include assertions
 - Output ONLY the test method code"""
 
-                        response = client.models.generate_content(model=model_name, contents=prompt)
-                        code = response.text
+                        response = None
+                        code = None
+                        for i in range(3):
+                            try:
+                                response = client.models.generate_content(model=model_name, contents=prompt)
+                                code = response.text
+                                break
+                            except genai_errors.ServerError as e:
+                                print(f"   API call failed with {e}. Retrying in 5 seconds...")
+                                time.sleep(5)
                         
-                        print("\n6. Generated test:")
-                        print("-"*70)
-                        print(code[:300] + "..." if len(code) > 300 else code)
-                        print("-"*70)
-                        
-                        # Extract code
-                        if "```java" in code:
-                            code = code.split("```java", 1)[1].split("```", 1)[0]
-                        elif "```" in code:
-                            parts = code.split("```")
-                            if len(parts) >= 3:
-                                code = parts[1]
-                        
-                        new_method = f"\n    {code.strip()}\n"
-                        
-                        # Add to test file
-                        test_content = test_file.read_text(encoding='utf-8')
-                        last_brace = test_content.rfind('}')
-                        if last_brace == -1:
-                            print("ERROR: Cannot find insertion point")
+                        if not code:
+                            print("\n6. Failed to generate test after multiple retries.")
                             sys.exit(1)
                         
-                        updated = test_content[:last_brace].strip() + "\n" + new_method + "}\n"
-                        test_file.write_text(updated, encoding='utf-8')
-                        
-                        print(f"\n7. Test added to: {test_file}")
-                        print("\n" + "="*70)
-                        print("SUCCESS! Test generated and added.")
-                        print("="*70)
-                        print("\nNext steps:")
-                        print("  1. Review the test in your editor")
-                        print("  2. Run: cd codebase && mvn test")
-                        print("  3. Run: python quick_start.py (to generate more tests)")
-                        print("="*70)
-                        
+                        if code:
+                            print("\n6. Generated test:")
+                            print("-"*70)
+                            print(code[:300] + "..." if len(code) > 300 else code)
+                            print("-"*70)
+                            
+                            # Extract code
+                            if "```java" in code:
+                                code = code.split("```java", 1)[1].split("```", 1)[0]
+                            elif "```" in code:
+                                parts = code.split("```")
+                                if len(parts) >= 3:
+                                    code = parts[1]
+                            
+                            new_method = f"\n    {code.strip()}\n"
+                            
+                            # Add to test file
+                            test_content = test_file.read_text(encoding='utf-8')
+                            last_brace = test_content.rfind('}')
+                            if last_brace == -1:
+                                print("ERROR: Cannot find insertion point")
+                                sys.exit(1)
+                            
+                            updated = test_content[:last_brace].strip() + "\n" + new_method + "}\n"
+                            test_file.write_text(updated, encoding='utf-8')
+                            
+                            print(f"\n7. Test added to: {test_file}")
+                            print("\n" + "="*70)
+                            print("SUCCESS! Test generated and added.")
+                            print("="*70)
+                            print("\nNext steps:")
+                            print("  1. Review the test in your editor")
+                            print("  2. Run: cd codebase && mvn test")
+                            print("  3. Run: python quick_start.py (to generate more tests)")
+                            print("="*70)
+                        else:
+                            print("\n6. No test generated.")
+
                         found = True
                         break
             if found:

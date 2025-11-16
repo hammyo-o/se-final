@@ -31,7 +31,6 @@ import java.io.File;
  * </p>
  *
  * @since 1.0
- * @version $Id$
  */
 public class SystemUtils {
 
@@ -112,7 +111,7 @@ public class SystemUtils {
 
     /**
      * <p>
-     * The {@code file.separator} System Property. 
+     * The {@code file.separator} System Property.
      * The file separator is:
      * <ul>
      * <li>{@code "/"}</code> on UNIX</li>
@@ -444,11 +443,10 @@ public class SystemUtils {
      * @since Java 1.3
      */
     public static final String JAVA_SPECIFICATION_VERSION = getSystemProperty("java.specification.version");
-    private static final JavaVersion JAVA_SPECIFICATION_VERSION_AS_ENUM = JavaVersion.get(JAVA_SPECIFICATION_VERSION);
 
     /**
      * <p>
-     * The {@code java.util.prefs.PreferencesFactory} System Property. A class name.
+     * The {@code java.util.prefs.PreferencesFactory} System Property.
      * </p>
      * <p>
      * Defaults to {@code null} if the runtime does not have security access to read this property or the property does
@@ -463,8 +461,7 @@ public class SystemUtils {
      * @since 2.1
      * @since Java 1.4
      */
-    public static final String JAVA_UTIL_PREFS_PREFERENCES_FACTORY =
-        getSystemProperty("java.util.prefs.PreferencesFactory");
+    public static final String JAVA_UTIL_PREFS_PREFERENCES_FACTORY = getSystemProperty("java.util.prefs.PreferencesFactory");
 
     /**
      * <p>
@@ -856,7 +853,7 @@ public class SystemUtils {
 
     /**
      * <p>
-     * Is {@code true} if this is Java version 1.1 (also 1.1.x versions).
+     * Is {@code true} if this is Java version 1.1.
      * </p>
      * <p>
      * The field will return {@code false} if {@link #JAVA_VERSION} is {@code null}.
@@ -866,7 +863,7 @@ public class SystemUtils {
 
     /**
      * <p>
-     * Is {@code true} if this is Java version 1.2 (also 1.2.x versions).
+     * Is {@code true} if this is Java version 1.2.
      * </p>
      * <p>
      * The field will return {@code false} if {@link #JAVA_VERSION} is {@code null}.
@@ -876,7 +873,7 @@ public class SystemUtils {
 
     /**
      * <p>
-     * Is {@code true} if this is Java version 1.3 (also 1.3.x versions).
+     * Is {@code true} if this is Java version 1.3.
      * </p>
      * <p>
      * The field will return {@code false} if {@link #JAVA_VERSION} is {@code null}.
@@ -886,7 +883,7 @@ public class SystemUtils {
 
     /**
      * <p>
-     * Is {@code true} if this is Java version 1.4 (also 1.4.x versions).
+     * Is {@code true} if this is Java version 1.4.
      * </p>
      * <p>
      * The field will return {@code false} if {@link #JAVA_VERSION} is {@code null}.
@@ -896,7 +893,7 @@ public class SystemUtils {
 
     /**
      * <p>
-     * Is {@code true} if this is Java version 1.5 (also 1.5.x versions).
+     * Is {@code true} if this is Java version 1.5.
      * </p>
      * <p>
      * The field will return {@code false} if {@link #JAVA_VERSION} is {@code null}.
@@ -906,7 +903,7 @@ public class SystemUtils {
 
     /**
      * <p>
-     * Is {@code true} if this is Java version 1.6 (also 1.6.x versions).
+     * Is {@code true} if this is Java version 1.6.
      * </p>
      * <p>
      * The field will return {@code false} if {@link #JAVA_VERSION} is {@code null}.
@@ -916,7 +913,7 @@ public class SystemUtils {
 
     /**
      * <p>
-     * Is {@code true} if this is Java version 1.7 (also 1.7.x versions).
+     * Is {@code true} if this is Java version 1.7.
      * </p>
      * <p>
      * The field will return {@code false} if {@link #JAVA_VERSION} is {@code null}.
@@ -926,11 +923,88 @@ public class SystemUtils {
      */
     public static final boolean IS_JAVA_1_7 = getJavaVersionMatches("1.7");
 
-    // Operating system checks
+    /**
+     * <p>
+     * Is {@code true} if this is Java version 1.8.
+     * </p>
+     * <p>
+     * The field will return {@code false} if {@link #JAVA_VERSION} is {@code null}.
+     * </p>
+     *
+     * @since 3.2
+     */
+    public static final boolean IS_JAVA_1_8 = getJavaVersionMatches("1.8");
+
+    /**
+     * <p>
+     * Is {@code true} if this is Java version 9.
+     * </p>
+     * <p>
+     * The field will return {@code false} if {@link #JAVA_VERSION} is {@code null}.
+     * </p>
+     *
+     * @since 3.7
+     */
+    public static final boolean IS_JAVA_9 = getJavaVersionMatches("9");
+
+    /**
+     * <p>
+     * Is {@code true} if this is Java version 10.
+     * </p>
+     * <p>
+     * The field will return {@code false} if {@link #JAVA_VERSION} is {@code null}.
+     * </p>
+     *
+     * @since 3.8
+     */
+    public static final boolean IS_JAVA_10 = getJavaVersionMatches("10");
+
+    /**
+     * <p>
+     * Is {@code true} if this is Java version 11.
+     * </p>
+     * <p>
+     * The field will return {@code false} if {@link #JAVA_VERSION} is {@code null}.
+     * </p>
+     *
+     * @since 3.9
+     */
+    public static final boolean IS_JAVA_11 = getJavaVersionMatches("11");
+
+    /**
+     * <p>
+     * Is {@code true} if this is Java version 12.
+     * </p>
+     * <p>
+     * The field will return {@code false} if {@link #JAVA_VERSION} is {@code null}.
+     * </p>
+     *
+     * @since 3.10
+     */
+    public static final boolean IS_JAVA_12 = getJavaVersionMatches("12");
+
+    /**
+     * <p>
+     * Is {@code true} if this is Java version 13.
+     * </p>
+     * <p>
+     * The field will return {@code false} if {@link #JAVA_VERSION} is {@code null}.
+     * </p>
+     *
+     * @since 3.11
+     */
+    public static final boolean IS_JAVA_13 = getJavaVersionMatches("13");
+
+    /**
+     * An enum representing all the versions of Java that we currently support.
+     * @since 3.0
+     * @deprecated Use {@link #isJavaVersionAtLeast(JavaVersion)} instead.
+     */
+    @Deprecated
+    public static final JavaVersion JAVA_SPECIFICATION_VERSION_AS_ENUM = JavaVersion.get(JAVA_SPECIFICATION_VERSION);
+
+    // OS names
     // -----------------------------------------------------------------------
-    // These MUST be declared after those above as they depend on the
-    // values being set up
-    // OS names from http://www.vamphq.com/os.html
     // Selected ones included - please advise dev@commons.apache.org
     // if you want another added or a mistake corrected
 
@@ -1113,7 +1187,7 @@ public class SystemUtils {
      *
      * @since 2.0
      */
-    public static final boolean IS_OS_WINDOWS_2000 = getOSMatches(OS_NAME_WINDOWS_PREFIX, "5.0");
+    public static final boolean IS_OS_WINDOWS_2000 = getOSMatchesName(OS_NAME_WINDOWS_PREFIX + " 2000");
 
     /**
      * <p>
@@ -1125,7 +1199,7 @@ public class SystemUtils {
      *
      * @since 3.1
      */
-    public static final boolean IS_OS_WINDOWS_2003 = getOSMatches(OS_NAME_WINDOWS_PREFIX, "5.2");
+    public static final boolean IS_OS_WINDOWS_2003 = getOSMatchesName(OS_NAME_WINDOWS_PREFIX + " 2003");
 
     /**
      * <p>
@@ -1137,7 +1211,19 @@ public class SystemUtils {
      *
      * @since 3.1
      */
-    public static final boolean IS_OS_WINDOWS_2008 = getOSMatches(OS_NAME_WINDOWS_PREFIX + " Server 2008", "6.1");
+    public static final boolean IS_OS_WINDOWS_2008 = getOSMatchesName(OS_NAME_WINDOWS_PREFIX + " Server 2008");
+
+    /**
+     * <p>
+     * Is {@code true} if this is Windows 2012.
+     * </p>
+     * <p>
+     * The field will return {@code false} if {@code OS_NAME} is {@code null}.
+     * </p>
+     *
+     * @since 3.2
+     */
+    public static final boolean IS_OS_WINDOWS_2012 = getOSMatchesName(OS_NAME_WINDOWS_PREFIX + " Server 2012");
 
     /**
      * <p>
@@ -1149,8 +1235,7 @@ public class SystemUtils {
      *
      * @since 2.0
      */
-    public static final boolean IS_OS_WINDOWS_95 = getOSMatches(OS_NAME_WINDOWS_PREFIX + " 9", "4.0");
-    // Java 1.2 running on Windows98 returns 'Windows 95', hence the above
+    public static final boolean IS_OS_WINDOWS_95 = getOSMatchesName(OS_NAME_WINDOWS_PREFIX + " 95");
 
     /**
      * <p>
@@ -1162,8 +1247,7 @@ public class SystemUtils {
      *
      * @since 2.0
      */
-    public static final boolean IS_OS_WINDOWS_98 = getOSMatches(OS_NAME_WINDOWS_PREFIX + " 9", "4.1");
-    // Java 1.2 running on Windows98 returns 'Windows 95', hence the above
+    public static final boolean IS_OS_WINDOWS_98 = getOSMatchesName(OS_NAME_WINDOWS_PREFIX + " 98");
 
     /**
      * <p>
@@ -1175,8 +1259,7 @@ public class SystemUtils {
      *
      * @since 2.0
      */
-    public static final boolean IS_OS_WINDOWS_ME = getOSMatches(OS_NAME_WINDOWS_PREFIX, "4.9");
-    // Java 1.2 running on WindowsME may return 'Windows 95', hence the above
+    public static final boolean IS_OS_WINDOWS_ME = getOSMatchesName(OS_NAME_WINDOWS_PREFIX + " Me");
 
     /**
      * <p>
@@ -1189,7 +1272,6 @@ public class SystemUtils {
      * @since 2.0
      */
     public static final boolean IS_OS_WINDOWS_NT = getOSMatchesName(OS_NAME_WINDOWS_PREFIX + " NT");
-    // Windows 2000 returns 'Windows 2000' but may suffer from same Java1.2 problem
 
     /**
      * <p>
@@ -1201,7 +1283,7 @@ public class SystemUtils {
      *
      * @since 2.0
      */
-    public static final boolean IS_OS_WINDOWS_XP = getOSMatches(OS_NAME_WINDOWS_PREFIX, "5.1");
+    public static final boolean IS_OS_WINDOWS_XP = getOSMatchesName(OS_NAME_WINDOWS_PREFIX + " XP");
 
     // -----------------------------------------------------------------------
     /**
@@ -1214,7 +1296,7 @@ public class SystemUtils {
      *
      * @since 2.4
      */
-    public static final boolean IS_OS_WINDOWS_VISTA = getOSMatches(OS_NAME_WINDOWS_PREFIX, "6.0");
+    public static final boolean IS_OS_WINDOWS_VISTA = getOSMatchesName(OS_NAME_WINDOWS_PREFIX + " Vista");
 
     /**
      * <p>
@@ -1226,7 +1308,7 @@ public class SystemUtils {
      *
      * @since 3.0
      */
-    public static final boolean IS_OS_WINDOWS_7 = getOSMatches(OS_NAME_WINDOWS_PREFIX, "6.1");
+    public static final boolean IS_OS_WINDOWS_7 = getOSMatchesName(OS_NAME_WINDOWS_PREFIX + " 7");
 
     /**
      * <p>
@@ -1238,7 +1320,33 @@ public class SystemUtils {
      *
      * @since 3.2
      */
-    public static final boolean IS_OS_WINDOWS_8 = getOSMatches(OS_NAME_WINDOWS_PREFIX, "6.2");
+    public static final boolean IS_OS_WINDOWS_8 = getOSMatchesName(OS_NAME_WINDOWS_PREFIX + " 8");
+
+    /**
+     * <p>
+     * Is {@code true} if this is Windows 10.
+     * </p>
+     * <p>
+     * The field will return {@code false} if {@code OS_NAME} is {@code null}.
+     * </p>
+     *
+     * @since 3.5
+     */
+    public static final boolean IS_OS_WINDOWS_10 = getOSMatchesName(OS_NAME_WINDOWS_PREFIX + " 10");
+
+    // -----------------------------------------------------------------------
+    /**
+     * <p>
+     * SystemUtils instances should NOT be constructed in standard programming. Instead, the class should be used as
+     * {@code SystemUtils.FILE_SEPARATOR}.
+     * </p>
+     * <p>
+     * This constructor is public to permit tools that require a JavaBean instance to operate.
+     * </p>
+     */
+    public SystemUtils() {
+        super();
+    }
 
     /**
      * <p>
@@ -1366,22 +1474,15 @@ public class SystemUtils {
      * @since Java 1.4
      */
     public static boolean isJavaAwtHeadless() {
-        return JAVA_AWT_HEADLESS != null ? JAVA_AWT_HEADLESS.equals(Boolean.TRUE.toString()) : false;
+        return Boolean.TRUE.toString().equals(JAVA_AWT_HEADLESS);
     }
 
     /**
      * <p>
      * Is the Java version at least the requested version.
      * </p>
-     * <p>
-     * Example input:
-     * </p>
-     * <ul>
-     * <li>{@code 1.2f} to test for Java 1.2</li>
-     * <li>{@code 1.31f} to test for Java 1.3.1</li>
-     * </ul>
      *
-     * @param requiredVersion the required version, for example 1.31f
+     * @param requiredVersion the required version, for example {@link JavaVersion#JAVA_1_5}
      * @return {@code true} if the actual version is equal or greater than the required version
      */
     public static boolean isJavaVersionAtLeast(final JavaVersion requiredVersion) {
@@ -1441,20 +1542,6 @@ public class SystemUtils {
             return false;
         }
         return osName.startsWith(osNamePrefix);
-    }
-
-    // -----------------------------------------------------------------------
-    /**
-     * <p>
-     * SystemUtils instances should NOT be constructed in standard programming. Instead, the class should be used as
-     * {@code SystemUtils.FILE_SEPARATOR}.
-     * </p>
-     * <p>
-     * This constructor is public to permit tools that require a JavaBean instance to operate.
-     * </p>
-     */
-    public SystemUtils() {
-        super();
     }
 
 }

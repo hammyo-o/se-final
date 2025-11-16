@@ -17,12 +17,11 @@
 
 package org.apache.commons.lang3.text.translate;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
 import java.io.IOException;
 import java.io.Writer;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 /**
@@ -83,62 +82,83 @@ public class CharSequenceTranslatorTest {
     };
 
     // 1. Test null input
-    assertNull(translator.translate(null), "translate(null) should return null");
+    assertNull("translate(null) should return null", translator.translate(null));
 
     // 2. Test empty string input
-    assertEquals("", translator.translate(""), "translate(\"\") should return an empty string");
+    assertEquals("translate(\"\") should return an empty string", "", translator.translate(""));
 
-    // 3. Test string with no characters to translate
-    assertEquals("The quick brown fox", translator.translate("The quick brown fox"), 
-        "A string with no matching characters should remain unchanged");
+    // 3. Test string with characters to translate
+    assertEquals("A string with a matching character should be translated", "The quick BARrown fox", translator.translate("The quick brown fox"));
 
     // 4. Test string with a single character to translate
-    assertEquals("FOO", translator.translate("a"), "A single 'a' should be translated to 'FOO'");
+    assertEquals("A single 'a' should be translated to 'FOO'", "FOO", translator.translate("a"));
 
     // 5. Test a more complex string with translations at the beginning, middle, and end
-    assertEquals("FOO c BAR d FOO", translator.translate("a c b d a"), 
-        "Characters at various positions should be translated correctly");
+    assertEquals("Characters at various positions should be translated correctly", "FOO c BAR d FOO", translator.translate("a c b d a"));
 
     // 6. Test a string with adjacent characters to translate
-    assertEquals("FOOBARc", translator.translate("abc"), 
-        "Adjacent translatable characters should be processed sequentially");
+    assertEquals("Adjacent translatable characters should be processed sequentially", "FOOBARc", translator.translate("abc"));
 
     // 7. Test a string that mixes translatable and non-translatable characters
-    assertEquals("The quick brown fox jumps over the lFOOzy dog.", 
-        translator.translate("The quick brown fox jumps over the lazy dog."),
-        "A single character within a larger string should be translated");
+    assertEquals("A single character within a larger string should be translated",
+        "The quick BARrown fox jumps over the lFOOzy dog.",
+        translator.translate("The quick brown fox jumps over the lazy dog."));
 }
 
     @Test
-    void testTranslate() {
-        // Setup a concrete translator for testing that replaces the character 'a' with the string "z"
-        final CharSequenceTranslator translator = new CharSequenceTranslator() {
+    public void translateShouldCorrectlyProcessVariousInputs() {
+        // Setup a concrete translator to test the abstract parent's orchestration logic.
+        // Using a LookupTranslator is a standard way to exercise the abstract class.
+        final CharSequenceTranslator translator =
+                new LookupTranslator(new CharSequence[][]{{"one", "uno"}, {"two", "dos"}, {"&", "&amp;"}});
+
+        // 1. Test null input
+        assertNull("Null input should return null as per the method contract", translator.translate(null));
+
+        // 2. Test empty input
+        assertEquals("Empty CharSequence should result in an empty String", "", translator.translate(""));
+
+        // 3. Test input with no characters that need translation
+        assertEquals("CharSequence with no matching lookup values should be returned unchanged", "three four", translator.translate("three four"));
+
+        // 4. Test input with characters that need translation
+        assertEquals("CharSequence with matching lookup values should be translated", "uno dos", translator.translate("one two"));
+
+        // 5. Test input with a mix of translatable and non-translatable characters
+        assertEquals("CharSequence with mixed values should be translated correctly", "uno &amp; dos", translator.translate("one & two"));
+
+        // 6. Test with a different CharSequence implementation (StringBuilder)
+        assertEquals("Should correctly handle different CharSequence implementations like StringBuilder", "uno", translator.translate(new StringBuilder("one")));
+    }
+
+    @Test
+    public void testTranslateSurrogatePairs() throws IOException {
+        // Setup: Create a concrete CharSequenceTranslator that handles surrogate pairs.
+        final CharSequenceTranslator surrogateTranslator = new CharSequenceTranslator() {
             @Override
             public int translate(final CharSequence input, final int index, final Writer out) throws IOException {
-                if (input.charAt(index) == 'a') {
-                    out.write("z");
-                    return 1; // 1 character consumed
+                if (Character.isHighSurrogate(input.charAt(index))) {
+                    // A very basic surrogate pair handler for testing purposes
+                    out.write("SURROGATE");
+                    return 2; // Consumed 2 chars (the surrogate pair)
                 }
-                return 0; // 0 characters consumed
+                return 0;
             }
         };
 
-        // Test: Basic translation where a match is found
-        assertEquals("zbc", translator.translate("abc"), "Should translate a matching character");
+        // Unicode surrogate pair for a character outside the BMP (e.g., U+1D400)
+        final String surrogatePairString = "\uD835\uDC00";
+        assertEquals("A surrogate pair should be translated correctly", "SURROGATE", surrogateTranslator.translate(surrogatePairString));
+    }
 
-        // Test: No translation needed
-        assertEquals("xyz", translator.translate("xyz"), "Should return the original string if no translation occurs");
-
-        // Test: Multiple translations in one string
-        assertEquals("zbcz", translator.translate("abac"), "Should translate all occurrences");
-
-        // Test: Translation at the beginning and end of the string
-        assertEquals("z z", translator.translate("a a"), "Should handle matches at the start and end of the string");
-        
-        // Test: Empty input string
-        assertEquals("", translator.translate(""), "Should return an empty string for an empty input");
-
-        // Test: Null input
-        assertNull(translator.translate(null), "Should return null for a null input");
+    @Test(expected = RuntimeException.class)
+    public void testTranslateWithIOException() throws IOException {
+        final CharSequenceTranslator translator = new CharSequenceTranslator() {
+            @Override
+            public int translate(final CharSequence input, final int index, final Writer out) throws IOException {
+                throw new IOException("Test Exception");
+            }
+        };
+        translator.translate("test");
     }
 }

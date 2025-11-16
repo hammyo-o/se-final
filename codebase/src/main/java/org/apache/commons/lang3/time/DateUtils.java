@@ -329,7 +329,7 @@ public class DateUtils {
      * @since 3.2
      */
     public static Date parseDateStrictly(final String str, final Locale locale, final String... parsePatterns) throws ParseException {
-        return parseDateWithLeniency(str, null, parsePatterns, false);
+        return parseDateWithLeniency(str, locale, parsePatterns, false);
     }    
 
     /**
@@ -1545,9 +1545,9 @@ public class DateUtils {
      * <p>
      * <ul>
      *  <li>January 1, 2008 7:15:10.538 with Calendar.HOUR_OF_DAY as fragment will return 15
-     *   (equivalent to calendar.get(Calendar.MINUTES))</li>
+     *   (equivalent to deprecated date.getMinutes())</li>
      *  <li>January 6, 2008 7:15:10.538 with Calendar.HOUR_OF_DAY as fragment will return 15
-     *   (equivalent to calendar.get(Calendar.MINUTES))</li>
+     *   (equivalent to deprecated date.getMinutes())</li>
      *  <li>January 1, 2008 7:15:10.538 with Calendar.MONTH as fragment will return 15</li>
      *  <li>January 6, 2008 7:15:10.538 with Calendar.MONTH as fragment will return 435 (7*60 + 15)</li>
      *  <li>January 16, 2008 7:15:10.538 with Calendar.MILLISECOND as fragment will return 0
@@ -1585,9 +1585,9 @@ public class DateUtils {
      * <p>
      * <ul>
      *  <li>January 1, 2008 7:15:10.538 with Calendar.DAY_OF_YEAR as fragment will return 7
-     *   (equivalent to calendar.get(Calendar.HOUR_OF_DAY))</li>
+     *   (equivalent to deprecated date.getHours())</li>
      *  <li>January 6, 2008 7:15:10.538 with Calendar.DAY_OF_YEAR as fragment will return 7
-     *   (equivalent to calendar.get(Calendar.HOUR_OF_DAY))</li>
+     *   (equivalent to deprecated date.getHours())</li>
      *  <li>January 1, 2008 7:15:10.538 with Calendar.MONTH as fragment will return 7</li>
      *  <li>January 6, 2008 7:15:10.538 with Calendar.MONTH as fragment will return 127 (5*24 + 7)</li>
      *  <li>January 16, 2008 7:15:10.538 with Calendar.MILLISECOND as fragment will return 0
