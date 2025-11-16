@@ -1,18 +1,30 @@
 # se-final — Test Coverage Toolkit
 
-Tools and project setup for analyzing JaCoCo coverage and improving tests for a Java/Maven codebase (Apache Commons Lang3).
+AI-assisted targeted test generation and coverage tracking for a Java/Maven project (Apache Commons Lang3) using JaCoCo + MCP extensions.
+
+## Table of Contents
+
+- Quick Start
+- Installation & Configuration
+- MCP Tool Documentation
+- Demo Workflow & Logging Format
+- Troubleshooting & FAQ
+- Project Layout
+- Notes
 
 ## Quick Start
 
-Generate a clean build and coverage report:
+Build + coverage:
 
 ```powershell
 cd codebase
 mvn clean verify -D maven.test.failure.ignore=true
 ```
 
-- Coverage HTML: `codebase/target/site/jacoco/index.html`
-- Coverage XML: `codebase/target/site/jacoco/jacoco.xml`
+Artifacts:
+
+- HTML: `codebase/target/site/jacoco/index.html`
+- XML: `codebase/target/site/jacoco/jacoco.xml`
 
 Run tests only:
 
@@ -21,27 +33,98 @@ cd codebase
 mvn test
 ```
 
-## Optional: MCP Agent
+## Installation & Configuration
 
-An MCP server is included to assist with targeted test generation and basic git automation. Start it if you use an MCP-compatible client:
+Prerequisites:
+
+- Java (JDK 21) & Maven on PATH
+- Python 3.10+
+- `pip install fastmcp google-generativeai`
+
+Start MCP server:
 
 ```powershell
 cd mcp-agent
 python server.py
 ```
 
-See `mcp-agent/README.md` for a brief description of available tools.
+Optional coverage logging:
+
+```powershell
+python scripts/coverage_summary.py
+```
+
+## MCP Tool Documentation
+
+| Tool | Purpose | Inputs | Output |
+|------|---------|--------|--------|
+| `run_maven_coverage_report` | Build & generate JaCoCo report | none | Status string / errors |
+| `coverage_summary` | Aggregate instruction & branch coverage | none | Multi-line summary |
+| `find_first_uncovered_method` | Locate next uncovered method | none | `path;Class;method(sig)` or message |
+| `generate_targeted_junit_test` | Append focused JUnit test | source_file_path, class_name, method_to_test | Success or error message |
+| `project` | Snapshot of codebase & first uncovered | optional path | Multi-line summary |
+| `git_status` | Show repo state | none | Porcelain status |
+| `git_add_all` | Stage changes | none | Confirmation |
+| `git_commit` | Commit staged changes | message | Commit log / warning |
+| `git_push` | Push commits | remote, branch | Push output |
+| `git_pull` | Pull latest | remote, branch | Pull output |
+
+### Extension Tools (Phase 5)
+
+- `find_first_uncovered_method`: Eliminates manual XML scanning.
+- `generate_targeted_junit_test`: Produces one deterministic test method for targeted improvement.
+- New Feature: `coverage_summary` for measurable before/after deltas.
+
+### Prompt (Example)
+
+See `.github/prompts/test_generation_prompt.md` for test generation prompt template.
+
+## Demo Workflow & Logging Format
+
+Demo steps (recorded/live):
+
+1. `coverage_summary` (baseline)
+2. `find_first_uncovered_method`
+3. `generate_targeted_junit_test`
+4. Git: status → add → commit → push
+5. `run_maven_coverage_report`
+6. `coverage_summary` (delta)
+
+Log row format (append to `demo/demo_log.md`):
+
+| Timestamp (UTC) | Step | Tool | Outcome | Instr % Before→After | Notes |
+|-----------------|------|------|---------|----------------------|-------|
+
+## Troubleshooting & FAQ
+
+| Issue | Cause | Fix |
+|-------|-------|-----|
+| Coverage XML missing | Build not run on `verify` | Run `mvn clean verify` |
+| Empty test generation | LLM response blank | Re-run tool; verify prompt tokens |
+| Test file not found | Missing matching `*Test.java` | Create baseline test class manually |
+| Nothing to commit | No staged changes | Run `git_add_all` first |
+| API errors | Invalid key / network | Reconfigure environment variable / retry |
+
+**Why one test per run?** Focus, easy review, avoids noisy commits.
+
+**Can I batch?** Planned future enhancement.
+
+**Prevent brittle tests?** Prompt enforces determinism; avoid randomness/time.
 
 ## Project Layout
 
-- `codebase/`: Maven project (Apache Commons Lang3) with JaCoCo configured to run on `verify`.
-- `mcp-agent/`: Minimal MCP server exposing tools to generate coverage and targeted tests.
-- `testing-agent-demo/`: Small demo Maven project used for reference.
-- `TEST_COVERAGE_WORKFLOW.md`: Focused how-to for coverage and workflow.
+- `codebase/` Maven project (JaCoCo on `verify`).
+- `mcp-agent/` MCP server & tools.
+- `scripts/` Utility scripts (coverage_summary.py).
+- `docs/` Coverage history log.
+- `demo/` Demo script & logs.
+- `report/` LaTeX reflection stub.
+- `.github/prompts/` Prompt templates.
 
 ## Notes
 
-- Build artifacts (`target/`) and node assets are ignored via `.gitignore`.
-- JaCoCo execution phase was updated to `verify` so `mvn verify` creates `target/site/jacoco/`.
+- Build artifacts ignored via `.gitignore`.
+- JaCoCo phase set to `verify` for full report generation.
+- Coverage history appended by `scripts/coverage_summary.py`.
 
-For detailed steps, see `TEST_COVERAGE_WORKFLOW.md`.
+For deeper workflow details see `TEST_COVERAGE_WORKFLOW.md` and `mcp-agent/README.md`.

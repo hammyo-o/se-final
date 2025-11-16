@@ -1,0 +1,45 @@
+% IEEE-like Reflection Report (Stub)
+\documentclass[conference]{IEEEtran}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\title{AI-Assisted Targeted Test Generation for Maven/JaCoCo Projects}
+\author{Your Name}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This report reflects on implementing MCP extensions for targeted test generation and coverage analysis, measuring improvements in instruction and branch coverage using JaCoCo, and evaluating AI-assisted development workflows.
+\end{abstract}
+
+\section{Introduction}
+Briefly state project motivation, existing challenges in manual coverage improvement, and goals (reduce selection time, automate focused test creation, surface coverage deltas).
+
+\section{Methodology}
+Describe system architecture: FastMCP server, tools (find\_first\_uncovered\_method, generate\_targeted\_junit\_test, coverage\_summary), JaCoCo integration, prompt design constraints, workflow steps.
+
+\section{Results and Discussion}
+Report before/after coverage percentages (instruction, branch). Analyze patterns in uncovered methods selected. Discuss quality of generated tests, assertion relevance, and integration speed. Include limitations (single-method focus, need for semantic validation).
+
+\section{Insights from AI-Assisted Development}
+Evaluate what the LLM accelerated (boilerplate, quick scaffolding) versus what required human judgment (assert semantics, edge-case selection). Note prompt iterations and failure modes (empty responses, over-generic tests).
+
+\section{Recommendations and Future Work}
+Propose mutation testing (PIT), batch uncovered method ranking, flaky test heuristics, richer context extraction, CI integration, and smarter assertion synthesis.
+
+\section{Conclusion}
+Summarize coverage gains, workflow efficiency benefits, and feasibility of extending approach to larger codebases.
+
+\section*{Acknowledgments}
+(Optional)
+
+\bibliographystyle{IEEEtran}
+\begin{thebibliography}{1}
+\bibitem{jacoco} JaCoCo Java Code Coverage Library. \url{https://www.jacoco.org}
+\bibitem{mcp} Model Context Protocol Specification.
+\end{thebibliography}
+
+\end{document}
