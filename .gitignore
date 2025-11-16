@@ -27,6 +27,12 @@ wheels/
 node_modules/
 package-lock.json
 
+# Java/Maven
+target/
+.mvn/
+*.iml
+*.class
+
 # IDE
 .idea/
 .vscode/

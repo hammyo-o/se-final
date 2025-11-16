@@ -50,4 +50,19 @@ public class JavaUnicodeEscaperTest {
         // Assert that the translation is as expected
         assertEquals("Characters from 0 up to 'a' should be escaped, others not.", expected, actual);
     }
+
+    @Test
+    public void testBetween() {
+        // Escaper that escapes only characters in the inclusive range [0x0061, 0x0061] (just 'a').
+        final JavaUnicodeEscaper escaper = JavaUnicodeEscaper.between(0x0061, 0x0061);
+
+        // Below range (96 '`') should not be escaped
+        assertEquals("Below range should not be escaped", "\u0060", escaper.translate("\u0060"));
+
+        // In range (97 'a') should be escaped
+        assertEquals("In-range should be escaped", "\\u0061", escaper.translate("\u0061"));
+
+        // Above range (98 'b') should not be escaped
+        assertEquals("Above range should not be escaped", "\u0062", escaper.translate("\u0062"));
+    }
 }
