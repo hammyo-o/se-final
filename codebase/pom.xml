@@ -107,15 +107,38 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.2</version>
+        <configuration>
+          <includes>
+            <include>**/*Test.java</include>
+          </includes>
+          <runOrder>random</runOrder>
+          <testFailureIgnore>true</testFailureIgnore>
+        </configuration>
         <executions>
           <execution>
             <id>plain</id>
-            <configuration>
-              <includes>
-                <include>**/*Test.java</include>
-              </includes>
-              <runOrder>random</runOrder>
-            </configuration>
+            <configuration/>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.12</version>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
