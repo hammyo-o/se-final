@@ -51,7 +51,7 @@ Server runs on `http://127.0.0.1:5000` with SSE transport.
 In VS Code Chat, use the `@tester` agent prompt:
 
 ```text
-@tester please improve test coverage for Apache Commons Lang
+@tester please improve test coverage for project Apache Commons Lang in ./codebase
 ```
 
 The agent will automatically:
@@ -66,10 +66,13 @@ The agent will automatically:
 
 ### Prerequisites
 
-- **Java**: JDK 1.8 (required for Apache Commons Lang3)
+- **JDK 8**: For building Apache Commons Lang3 codebase (source/target compatibility)
+- **JDK 21**: For running MCP agent Maven operations
 - **Maven**: 3.6+ (should be on PATH)
-- **Python**: 3.10+ for MCP server
+- **Python**: 3.13+ for MCP server
 - **VS Code**: With GitHub Copilot extension
+
+**Note:** The codebase compiles to Java 1.8 bytecode (`maven.compile.source=1.8`) but can be built with JDK 21. The MCP agent requires JDK 21 for optimal operation.
 
 ### Setup
 
