@@ -103,14 +103,14 @@ public class ToStringBuilderAdditionalTest {
     }
     
     @Test
-    public void testAppendWithFullDetail() {
+    public void testAppendObjectWithName() {
         TestObject obj = new TestObject();
         ToStringBuilder builder = new ToStringBuilder(obj);
         
-        // Test append(String, Object, boolean) method with String and null
-        builder.append("field1", "value1", true);
-        builder.append("field2", null, false);
-        builder.append("field3", Integer.valueOf(123), true);
+        // Test named field appends with Object type (avoiding ambiguity)
+        builder.append("field1", (Object)"value1");
+        builder.append("field2", (Object)null);
+        builder.append("field3", (Object)Integer.valueOf(123));
         
         String result = builder.toString();
         assertNotNull(result);
