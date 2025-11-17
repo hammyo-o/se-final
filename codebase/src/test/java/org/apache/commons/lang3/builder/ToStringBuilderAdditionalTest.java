@@ -2,6 +2,8 @@ package org.apache.commons.lang3.builder;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+import org.junit.After;
+import java.util.Map;
 
 /**
  * Additional tests for ToStringBuilder to improve coverage.
@@ -14,6 +16,19 @@ public class ToStringBuilderAdditionalTest {
         private String name = "test";
         @SuppressWarnings("unused")
         private int value = 42;
+    }
+    
+    /**
+     * Clean up ToStringStyle registry after each test.
+     * This ensures we don't leave any registered objects that would interfere with other tests.
+     */
+    @After
+    public void cleanUpRegistry() {
+        // Unregister any TestObject instances from the ToStringStyle registry
+        Map<Object, Object> registry = ToStringStyle.getRegistry();
+        if (registry != null) {
+            ToStringStyle.unregister(new TestObject());
+        }
     }
 
     @Test
