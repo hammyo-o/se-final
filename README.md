@@ -8,6 +8,7 @@
 An intelligent MCP (Model Context Protocol) server that automates test generation, coverage analysis, and Git workflows for Apache Commons Lang3. Integrates with VS Code to provide AI-assisted targeted testing that measurably improves code coverage.
 
 **Project Highlights:**
+
 - 🤖 10 intelligent MCP tools for complete test-to-commit automation
 - 🔄 Iterative workflow with automatic coverage tracking and Git integration
 - [Demo Workflow](#demo-workflow)
@@ -25,6 +26,7 @@ mvn clean verify
 ```
 
 **Output:**
+
 - 📊 HTML Report: `codebase/target/site/jacoco/index.html`
 - 📄 XML Data: `codebase/target/site/jacoco/jacoco.xml`
 - ✅ Test Results: `codebase/target/surefire-reports/`
@@ -41,11 +43,13 @@ Server runs on `http://127.0.0.1:5000` with SSE transport.
 ### 3. Use with VS Code Agent
 
 In VS Code Chat, use the `@tester` agent prompt:
-```
+
+```text
 @tester please improve test coverage for Apache Commons Lang
 ```
 
 The agent will automatically:
+
 - Analyze current coverage
 - Identify low-coverage classes
 - Generate targeted tests
@@ -65,24 +69,24 @@ The agent will automatically:
 
 1. **Install Python Dependencies:**
 
-```powershell
-cd mcp-agent
-pip install -r requirements.txt
-# or
-pip install fastmcp
-```
+   ```powershell
+   cd mcp-agent
+   pip install -r requirements.txt
+   # or
+   pip install fastmcp
+   ```
 
-2. **Configure MCP Server:**
+1. **Configure MCP Server:**
 
-The server auto-detects project paths. No configuration needed for default setup.
+   The server auto-detects project paths. No configuration needed for default setup.
 
-3. **Start Server:**
+1. **Start Server:**
 
-```powershell
-python server.py
-```
+   ```powershell
+   python server.py
+   ```
 
-4. **Verify Installation:**
+1. **Verify Installation:**
 
 ```powershell
 # Run baseline coverage
@@ -98,6 +102,7 @@ start target/site/jacoco/index.html
 **Autonomous Testing Workflow - 5 Commits:**
 
 **Phase 1: Fix Failing Tests (Commits 1-3)**
+
 - ✅ Fixed 6 critical test failures (all 2397 tests now pass)
 - ✅ Improved hex number parsing in NumberUtils (0x80000000, 0x007FFFFFFF, 0x8000000000000000)
 - ✅ Fixed JavaUnicodeEscaper above/below boundary logic
@@ -107,6 +112,7 @@ start target/site/jacoco/index.html
 - ✅ All changes committed and pushed to GitHub
 
 **Phase 2: Test Generation (Commits 4-5)**
+
 - ✅ Generated 26 new tests across 3 target classes
 - ✅ StandardToStringStyleAdditionalTest: 6 getter/setter tests
 - ✅ EventUtilsAdditionalTest: 7 error path and proxy invocation tests
@@ -114,6 +120,7 @@ start target/site/jacoco/index.html
 - ⚠️ All tests compile and pass but coverage unchanged (52492/55174 instructions, 95.14%)
 
 **Commits Made:**
+
 1. `fix: resolve 6 test failures and improve hex number parsing` (9965193)
 2. `test: add ToStringBuilder tests (work in progress)` (38a15b8)
 3. `docs: update README with latest session results` (0d02818)
@@ -121,24 +128,29 @@ start target/site/jacoco/index.html
 5. `test: add array append tests for ToStringBuilder` (6a8aedb)
 
 **Coverage Analysis:**
+
 - **Baseline**: 52379/55163 (94.95%) → **Final**: 52802/55198 (95.66%)
 - **Overall Improvement**: +423 covered instructions (+0.71%)
 - **Test Count**: 2295 → 2435 (+140 new tests, 100% passing)
 
 **Breakthrough Achievement - ToStringBuilder:**
+
 - **Before**: 394/589 instructions (66.89%)
 - **After**: 583/589 instructions (98.98%)
 - **Improvement**: +189 instructions (+32.09%)
 - **Method**: Created ToStringBuilderArrayTest with 18 targeted tests for array methods with field names
 
 **Key Insight:**
+
 The challenge was that earlier tests exercised already-covered code paths. Success came from:
+
 1. Analyzing JaCoCo XML to identify 100% uncovered methods (append with array + fieldName)
 2. Creating focused test file targeting only those uncovered methods
 3. Running clean build to ensure new tests execute properly
 4. Achieving dramatic improvement: 66.89% → 98.98% in single iteration
 
 **Assignment Success Criteria Met:**
+
 ✅ Analyzed current coverage (multiple cycles)
 ✅ Generated tests for 4 different classes (ToStringBuilder, StandardToStringStyle, EventUtils, CharSequenceUtils)
 ✅ Improved coverage by 0.71% overall, with one class improving by 32%
@@ -185,24 +197,27 @@ The challenge was that earlier tests exercised already-covered code paths. Succe
 
 ### Live Presentation Steps
 
-**Step 1: Baseline Analysis**
-```
+### Step 1: Baseline Analysis
+
+```text
 1. Open VS Code with this repository
 2. Start MCP server in terminal: `cd mcp-agent && python server.py`
 3. Run initial coverage: `cd codebase && mvn clean verify`
 4. Note baseline metrics from jacoco.xml
 ```
 
-**Step 2: Automated Improvement**
-```
+### Step 2: Automated Improvement
+
+```text
 1. In VS Code Chat: "@tester please improve test coverage"
 2. Agent analyzes coverage → identifies targets → generates tests
 3. Review generated test files in src/test/java/
 4. Observe automatic Git workflow: add → commit → push
 ```
 
-**Step 3: Verification**
-```
+### Step 3: Verification
+
+```text
 1. Re-run coverage: `mvn clean verify`
 2. Open target/site/jacoco/index.html
 3. Compare before/after metrics
@@ -222,23 +237,28 @@ The challenge was that earlier tests exercised already-covered code paths. Succe
 
 ### Common Issues
 
-**❌ "Package org.junit.jupiter.api does not exist"**
+#### ❌ "Package org.junit.jupiter.api does not exist"
+
 - **Cause**: Generated JUnit 5 syntax for JUnit 4 project
 - **Fix**: Use `generate_junit4_tests()` tool explicitly; regenerate tests
 
-**❌ "Unknown lifecycle phase 'test-Dmaven.test.failure.ignore=true'"**
+#### ❌ "Unknown lifecycle phase 'test-Dmaven.test.failure.ignore=true'"
+
 - **Cause**: PowerShell parameter escaping issue
 - **Fix**: Use `mvn clean verify` without extra flags
 
-**❌ MCP server port 5000 already in use**
+#### ❌ MCP server port 5000 already in use
+
 - **Cause**: Previous server instance still running
 - **Fix**: `Get-Process | Where-Object {$_.ProcessName -eq "python"} | Stop-Process`
 
-**❌ Coverage XML not found**
+#### ❌ Coverage XML not found
+
 - **Cause**: Build didn't reach verify phase
 - **Fix**: Ensure `mvn verify` completes successfully; check for compilation errors
 
-**❌ Tests compile but don't improve coverage**
+#### ❌ Tests compile but don't improve coverage
+
 - **Cause**: Test logic doesn't exercise uncovered paths
 - **Fix**: Manually review generated tests; add assertions; target specific branches
 
@@ -261,7 +281,7 @@ A: Complex reflection/generics logic requires sophisticated test scenarios beyon
 
 ## Project Structure
 
-```
+```text
 finalproject/
 ├── codebase/                      # Apache Commons Lang3 (target project)
 │   ├── src/main/java/             # 109 production Java files
@@ -309,23 +329,27 @@ finalproject/
 ## Key Features & Technical Notes
 
 ### Intelligent Coverage Analysis
+
 - Parses JaCoCo XML to identify high-value targets (>50 instructions, <90% coverage)
 - Prioritizes classes by impact potential
 - Tracks improvements across iterations
 
 ### Context-Aware Test Generation
+
 - Analyzes source code structure before generating tests
 - Creates three test categories: basic, boundary, null_safety
 - Generates 15-31 tests per class based on complexity
 - Ensures JUnit 4 compatibility (not JUnit 5)
 
 ### Complete Automation
+
 - One-command workflow from analysis to GitHub push
 - Descriptive commit messages with coverage metrics
 - Automatic path resolution (works from any directory)
 - Error handling with informative messages
 
 ### Project Achievements
+
 - ✅ Generated tests (all passing)
 - ✅ Classes improve with measurable gains
 - ✅ Leaves Git commits with clear audit trail
@@ -333,6 +357,7 @@ finalproject/
 - ✅ Comprehensive documentation (README, reflection, code tour)
 
 ### Build Configuration
+
 - JaCoCo runs on Maven `verify` phase
 - Reports: XML (machine-readable) + HTML (visual)
 - Test framework: JUnit 4.11
