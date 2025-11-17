@@ -2,14 +2,16 @@
 
 AI-assisted targeted test generation and coverage tracking for a Java/Maven project (Apache Commons Lang3) using JaCoCo + MCP extensions.
 
+**Merged Repository**: This combines two team member contributions — automated test generation workflows and MCP server tooling for Maven + Git automation.
+
 ## Table of Contents
 
 - Quick Start
 - Installation & Configuration
+- Project Structure
 - MCP Tool Documentation
 - Demo Workflow & Logging Format
 - Troubleshooting & FAQ
-- Project Layout
 - Notes
 
 ## Quick Start
@@ -111,11 +113,43 @@ Log row format (append to `demo/demo_log.md`):
 
 **Prevent brittle tests?** Prompt enforces determinism; avoid randomness/time.
 
-## Project Layout
+## Project Structure
 
-- `codebase/` Maven project (JaCoCo on `verify`).
-- `mcp-agent/` MCP server & tools.
-- `scripts/` Utility scripts (coverage_summary.py).
+```
+finalproject/
+├── codebase/               # Apache Commons Lang3 Java project (target for test gen)
+│   ├── src/main/java/      # Production code
+│   ├── src/test/java/      # JUnit tests
+│   ├── pom.xml             # Maven config with JaCoCo
+│   └── target/             # Build artifacts (jacoco.xml, reports)
+│
+├── mcp-agent/              # MCP server for test automation
+│   ├── server.py           # FastMCP server with tools
+│   ├── coverage_parser.py  # JaCoCo XML parser
+│   ├── git_tools.py        # Git helpers
+│   ├── pyproject.toml      # Python dependencies
+│   └── docs/               # Reflection docs (PDF + LaTeX)
+│
+├── testing-agent-demo/     # Smaller demo Java project
+│   ├── src/main/java/      # App.java
+│   └── src/test/java/      # Generated tests
+│
+├── scripts/                # Utility scripts
+│   ├── coverage_summary.py
+│   └── coverage_summary_for.py
+│
+├── docs/                   # Coverage history log
+│   └── coverage_history.md
+│
+└── demo/                   # Demo documentation
+    └── final_demo_script.md
+```
+
+**Key Folders**:
+- `codebase/`: Main Java project for coverage improvement (Apache Commons Lang3)
+- `mcp-agent/`: AI agent server that automates test generation and git operations
+- `mcp-agent/docs/`: Contains the team reflection document (`.tex` and `.pdf`)
+- `docs/coverage_history.md`: Historical coverage tracking
 - `docs/` Coverage history log.
 - `demo/` Demo script & logs.
 - `report/` LaTeX reflection stub.
