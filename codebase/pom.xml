@@ -107,62 +107,18 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.5.4</version>
-
-        <configuration>
-          <redirectTestOutputToFile>false</redirectTestOutputToFile>
-          <forkCount>1</forkCount>
-          <reuseForks>false</reuseForks>
-          <testFailureIgnore>true</testFailureIgnore>
-          <argLine>@{argLine} --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED</argLine>
-        </configuration>
-        </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-toolchains-plugin</artifactId>
-        <version>3.1.0</version>
         <executions>
           <execution>
-      <goals>
-        <goal>toolchain</goal>
-      </goals>
-    </execution>
-  </executions>
-  <configuration>
-    <toolchains>
-      <jdk>
-        <version>21</version>
-      </jdk>
-    </toolchains>
-  </configuration>
-  </plugin>
-        <plugin>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.14</version>
-            <executions>
-                <execution>
-                    <id>prepare-agent</id>
-                    <goals>
-                        <goal>prepare-agent</goal>
-                    </goals>
-                </execution>
-                <execution>
-                    <id>report</id>
-                    <phase>verify</phase>
-                    <goals>
-                        <goal>report</goal>
-                    </goals>
-                    <configuration>
-                        <formats>
-                            <format>XML</format>
-                            <format>HTML</format>
-                        </formats>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
+            <id>plain</id>
+            <configuration>
+              <includes>
+                <include>**/*Test.java</include>
+              </includes>
+              <runOrder>random</runOrder>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>

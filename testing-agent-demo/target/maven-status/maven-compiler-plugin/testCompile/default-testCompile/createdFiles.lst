@@ -1,3 +1,6 @@
-com\example\AppTest.class
 com\example\AppGeneratedTest.class
+com\example\ClassifyNumberEdgeTest.class
 com\example\AppPrintTest.class
+com\example\ClassifyNumberSpecTest.class
+com\example\AppTest.class
+com\example\ClassifyNumberTest.class

@@ -16,6 +16,15 @@
  */
 package org.apache.commons.lang3.time;
 
+import static org.apache.commons.lang3.JavaVersion.JAVA_1_4;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.text.DateFormat;
@@ -29,18 +38,12 @@ import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.TimeZone;
 
-import static org.apache.commons.lang3.JavaVersion.JAVA_1_4;
+import junit.framework.AssertionFailedError;
+
 import org.apache.commons.lang3.SystemUtils;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+
 import org.junit.Before;
 import org.junit.Test;
-
-import junit.framework.AssertionFailedError;
 
 /**
  * Unit tests {@link org.apache.commons.lang3.time.DateUtils}.
@@ -1592,8 +1595,8 @@ public class DateUtilsTest {
         final Locale dflt = Locale.getDefault();
         Locale.setDefault(Locale.GERMAN);
         try {
-            DateUtils.parseDate("Mi, 09 Apr. 2008 23:55:38 GMT", "EEE, dd MMM yyyy HH:mm:ss zzz");
-            DateUtils.parseDateStrictly("Mi, 09 Apr. 2008 23:55:38 GMT", "EEE, dd MMM yyyy HH:mm:ss zzz");
+            DateUtils.parseDate("Mi, 09 Apr 2008 23:55:38 GMT", "EEE, dd MMM yyyy HH:mm:ss zzz");
+            DateUtils.parseDateStrictly("Mi, 09 Apr 2008 23:55:38 GMT", "EEE, dd MMM yyyy HH:mm:ss zzz");
         } finally {
             Locale.setDefault(dflt);            
         }
