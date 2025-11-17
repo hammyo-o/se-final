@@ -115,7 +115,14 @@ Log row format (append to `demo/demo_log.md`):
 
 ## Project Structure
 
-```
+``` components:
+
+codebase/ - Apache Commons Lang3 (our target for improvement)
+mcp-agent/ - MCP server with AI tools
+testing-agent-demo/ - Smaller demo project
+scripts/ - Coverage utilities
+mcp-agent/docs/ - Team reflection document
+The MCP agent automates the entire test generation workf
 finalproject/
 ├── codebase/               # Apache Commons Lang3 Java project (target for test gen)
 │   ├── src/main/java/      # Production code

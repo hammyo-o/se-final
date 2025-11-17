@@ -1,0 +1,56 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "MCP Test Generation Demo",
+  "steps": [
+    {
+      "file": "README.md",
+      "description": "# Welcome Class to our MCP Test Generation Demo\n\nThis project demonstrates **automated test generation** for Apache Commons Lang3 using:\n- AI-powered test generation\n- MCP (Model Context Protocol) tools\n- JaCoCo coverage tracking\n- Git automation\n\nWe'll walk through how the system automatically improves code coverage by generating targeted JUnit tests.",
+      "line": 1
+    },
+    {
+      "file": "docs/coverage_history.md",
+      "description": "## Coverage History Tracking\n\nThis file logs every coverage iteration:\n- **Baseline**: 94.82% instruction, 91.27% branch coverage\n- Each row shows timestamp, coverage metrics, and notes\n- Automated entries are logged after each test generation\n\nWe track improvements over time to measure the effectiveness of our automated testing approach.",
+      "line": 1
+    },
+    {
+      "file": "README.md",
+      "description": "## Project Structure\n\nKey components:\n- **`codebase/`** - Apache Commons Lang3 (our target for improvement)\n- **`mcp-agent/`** - MCP server with AI tools\n- **`testing-agent-demo/`** - Smaller demo project\n- **`scripts/`** - Coverage utilities\n- **`mcp-agent/docs/`** - Team reflection document\n\nThe MCP agent automates the entire test generation workflow.",
+      "line": 118
+    },
+    {
+      "file": "codebase/pom.xml",
+      "description": "## JaCoCo Configuration\n\nJaCoCo is configured in Maven to:\n- Run during the `verify` phase\n- Generate XML reports at `target/site/jacoco/jacoco.xml`\n- Create HTML reports for visualization\n- Track instruction and branch coverage\n\nThis is what powers our automated coverage measurement.",
+      "line": 140,
+      "pattern": "jacoco-maven-plugin"
+    },
+    {
+      "file": "mcp-agent/server.py",
+      "description": "## MCP Server - The Brain\n\nThis FastMCP server exposes tools for:\n\n1. **`run_maven_coverage_report`** - Build & generate JaCoCo\n2. **`find_first_uncovered_method`** - Locate next target\n3. **`generate_targeted_junit_test`** - Create focused test\n4. **`git_add_all`**, **`git_commit`**, **`git_push`** - Automate Git workflow\n\nAll paths are now repo-relative, making the system portable.",
+      "line": 1
+    },
+    {
+      "file": "mcp-agent/coverage_parser.py",
+      "description": "## Coverage Parser\n\nParses JaCoCo XML to identify:\n- Uncovered methods\n- Classes needing tests\n- Coverage percentages\n\nThe parser uses dynamic paths relative to the repo root, so it works on any machine.",
+      "line": 1
+    },
+    {
+      "file": "codebase/src/test/java/org/apache/commons/lang3/text/translate/UnicodeEscaperTest.java",
+      "description": "## Generated Test Example\n\nThis test was **automatically generated** by the MCP tool!\n\nThe tool:\n1. Identified `UnicodeEscaper.<init>()` as uncovered\n2. Generated a targeted JUnit 4 test\n3. Added it to the existing test file\n4. Improved coverage for this class\n\nLet's see this in action in the terminal...",
+      "line": 1
+    },
+    {
+      "title": "Live Demo - Terminal Workflow",
+      "description": "## Terminal Demo\n\nNow let's run the workflow live:\n\n### Step 1: Start MCP Server\n```powershell\ncd mcp-agent\npython server.py\n```\n\n### Step 2: Use MCP Tools (via VS Code Chat or Claude Desktop)\n- Run `find_first_uncovered_method`\n- Run `generate_targeted_junit_test`\n- Run `git_add_all` → `git_commit` → `git_push`\n\n### Step 3: Verify Coverage\n```powershell\ncd codebase\nmvn clean verify\n```\n\n### Step 4: Check Improvement\nOpen `target/site/jacoco/index.html` and compare with baseline in `coverage_history.md`\n\n**Pause here to demo in terminal, then continue tour...**"
+    },
+    {
+      "file": "mcp-agent/docs/reflection.pdf",
+      "description": "## Team Reflection\n\nOur full reflection document covers:\n- Development approach and methodology\n- Challenges encountered (path issues, test quality, JaCoCo quirks)\n- What we learned about AI-assisted development\n- Future improvements (batch generation, smarter targeting)\n\nThis demonstrates the complete software engineering process, not just code."
+    },
+    {
+      "file": "README.md",
+      "description": "## Demo Complete!\n\n### What We Showed:\n✅ Baseline coverage measurement\n✅ MCP server architecture\n✅ Automated test generation\n✅ Git workflow automation\n✅ Coverage improvement verification\n\n### Key Achievements:\n- Portable, repo-relative paths\n- Targeted test generation (one method at a time)\n- Full automation: coverage → test → commit → verify\n- Measurable improvement tracking\n\n### Next Steps:\n- Merge this branch to `main`\n- Continue iterative coverage improvement\n- Explore batch test generation\n\nThank you for watching!",
+      "line": 1
+    }
+  ],
+  "ref": "chore/import-friend-merge"
+}
