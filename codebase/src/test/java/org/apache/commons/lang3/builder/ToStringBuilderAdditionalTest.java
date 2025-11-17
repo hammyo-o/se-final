@@ -183,4 +183,45 @@ public class ToStringBuilderAdditionalTest {
         // The buffer should have been used
         assertTrue(buffer.length() > 0);
     }
+    
+    @Test
+    public void testAppendNamedArrays() {
+        TestObject obj = new TestObject();
+        ToStringBuilder builder = new ToStringBuilder(obj);
+        
+        // Test append with field names and arrays
+        builder.append("booleans", new boolean[]{true, false});
+        builder.append("bytes", new byte[]{1, 2, 3});
+        builder.append("chars", new char[]{'a', 'b', 'c'});
+        builder.append("doubles", new double[]{1.1, 2.2});
+        builder.append("floats", new float[]{1.1f, 2.2f});
+        builder.append("ints", new int[]{10, 20, 30});
+        builder.append("longs", new long[]{100L, 200L});
+        builder.append("shorts", new short[]{(short)1, (short)2});
+        builder.append("objects", new Object[]{"str1", "str2"});
+        
+        String result = builder.toString();
+        assertNotNull(result);
+        assertTrue(result.contains("booleans"));
+    }
+    
+    @Test
+    public void testAppendNamedArraysWithFullDetail() {
+        TestObject obj = new TestObject();
+        ToStringBuilder builder = new ToStringBuilder(obj);
+        
+        // Test append with field names, arrays, and fullDetail flag
+        builder.append("boolArray", new boolean[]{true}, false);
+        builder.append("byteArray", new byte[]{1}, true);
+        builder.append("charArray", new char[]{'x'}, false);
+        builder.append("doubleArray", new double[]{1.5}, true);
+        builder.append("floatArray", new float[]{2.5f}, false);
+        builder.append("intArray", new int[]{42}, true);
+        builder.append("longArray", new long[]{999L}, false);
+        builder.append("shortArray", new short[]{(short)5}, true);
+        builder.append("objArray", new Object[]{"test"}, false);
+        
+        String result = builder.toString();
+        assertNotNull(result);
+    }
 }
