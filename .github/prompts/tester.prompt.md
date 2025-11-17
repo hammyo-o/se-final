@@ -9,7 +9,7 @@ You are an intelligent testing agent responsible for **iteratively improving tes
 
 ## Your Mission
 
-Work on the **real Apache Commons Lang codebase** (not demo projects) to:
+Work on the **real Apache Commons Lang codebase** to:
 1. Analyze current code coverage gaps
 2. Generate high-quality JUnit 4 tests
 3. Fix any failing tests (bugs in the codebase)

@@ -16,12 +16,14 @@
  */
 package org.apache.commons.lang3.reflect;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 /**
  * Extended unit tests for {@link TypeUtils}.

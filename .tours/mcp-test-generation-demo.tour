@@ -1,25 +1,20 @@
 {
   "$schema": "https://aka.ms/codetour-schema",
-  "title": "MCP Test Generation Demo",
+  "title": "AI-Powered Test Coverage Improvement Demo",
   "steps": [
     {
       "file": "README.md",
-      "description": "# Welcome Class to our MCP Test Generation Demo\n\nThis project demonstrates **automated test generation** for Apache Commons Lang3 using:\n- AI-powered test generation\n- MCP (Model Context Protocol) tools\n- JaCoCo coverage tracking\n- Git automation\n\nWe'll walk through how the system automatically improves code coverage by generating targeted JUnit tests.",
-      "line": 1
-    },
-    {
-      "file": "docs/coverage_history.md",
-      "description": "## Coverage History Tracking\n\nThis file logs every coverage iteration:\n- **Baseline**: 94.82% instruction, 91.27% branch coverage\n- Each row shows timestamp, coverage metrics, and notes\n- Automated entries are logged after each test generation\n\nWe track improvements over time to measure the effectiveness of our automated testing approach.",
+      "description": "# Welcome to AI-Powered Test Coverage Improvement\n\n## Project Overview\n\nThis system demonstrates **intelligent automated test generation** for Apache Commons Lang3:\n\n✅ **Automated JUnit 4 test generation** for low-coverage classes\n✅ **Significant coverage improvements** through iterative testing\n✅ **Complete automation**: Coverage analysis → Test generation → Git workflow\n✅ **Production-ready**: Context-aware generation, proper JUnit 4 syntax, comprehensive assertions\n\n### Technology Stack\n- **MCP Server**: FastMCP with 10 intelligent tools\n- **Coverage**: JaCoCo 0.8.12 for detailed metrics\n- **AI Integration**: Context-aware test generation\n- **Version Control**: Automated Git commit/push workflow\n\nLet's explore how it works!",
       "line": 1
     },
     {
       "file": "README.md",
       "description": "## Project Structure\n\nKey components:\n- **`codebase/`** - Apache Commons Lang3 (our target for improvement)\n- **`mcp-agent/`** - MCP server with AI tools\n- **`testing-agent-demo/`** - Smaller demo project\n- **`scripts/`** - Coverage utilities\n- **`mcp-agent/docs/`** - Team reflection document\n\nThe MCP agent automates the entire test generation workflow.",
-      "line": 118
+      "line": 208
     },
     {
       "file": "mcp-agent/server.py",
-      "description": "## MCP Server - The Brain\n\nThis FastMCP server exposes tools for:\n\n1. **`run_maven_coverage_report`** - Build & generate JaCoCo\n2. **`find_first_uncovered_method`** - Locate next target\n3. **`generate_targeted_junit_test`** - Create focused test\n4. **`git_add_all`**, **`git_commit`**, **`git_push`** - Automate Git workflow\n\nAll paths are now repo-relative, making the system portable.",
+      "description": "## 🧠 MCP Server Architecture\n\n**FastMCP Server with 10 Intelligent Tools:**\n\n### Coverage Analysis (5 tools)\n- `analyze_coverage()` - Parse JaCoCo XML, identify targets (<90% coverage, >50 instructions)\n- `run_verify_with_coverage()` - Execute Maven verify with 5-min timeout\n- `run_tests()` - Quick test execution for verification\n- `identify_failing_tests()` - Parse surefire reports for debugging\n- `get_class_source()` - Retrieve source code for context-aware generation\n\n### Test Generation (1 tool)\n- `generate_junit4_tests()` - Create targeted JUnit 4 tests (basic/boundary/null_safety)\n\n### Git Automation (4 tools)\n- `git_status()`, `git_add_all()`, `git_commit()`, `git_push()`\n\n**Key Features:**\n- Portable paths (works from any directory)\n- Context-aware analysis before generation\n- JUnit 4 compatibility enforcement\n- Descriptive error messages",
       "line": 1
     },
     {
@@ -30,25 +25,12 @@
     },
     {
       "file": "mcp-agent/coverage_parser.py",
-      "description": "## Coverage Parser\n\nParses JaCoCo XML to identify:\n- Uncovered methods\n- Classes needing tests\n- Coverage percentages\n\nThe parser uses dynamic paths relative to the repo root, so it works on any machine.",
+      "description": "## 📊 JaCoCo Coverage Parser\n\n**Intelligent Analysis Tool:**\n\nParses `codebase/target/site/jacoco/jacoco.xml` to extract:\n- **Instruction Coverage** (bytecode-level granularity)\n- **Branch Coverage** (conditional logic paths)\n- **Line Coverage** (source code execution)\n- **Complexity Metrics** (cyclomatic complexity)\n\n**Selection Algorithm:**\n1. Filter: coverage < 90%\n2. Filter: instruction count > 50 (skip trivial classes)\n3. Sort: by instruction coverage (ascending)\n4. Return: Top 10 targets\n\n**Output Format:**\n```python\n{\n  \"class\": \"org.apache.commons.lang3.builder.StandardToStringStyle\",\n  \"instruction_coverage\": 32.0,\n  \"missed_instructions\": 102,\n  \"total_instructions\": 150\n}\n```\n\nThis context-aware analysis ensures effort is focused on high-impact targets, not already-tested code.",
       "line": 1
     },
     {
-      "file": "codebase/src/test/java/org/apache/commons/lang3/text/translate/UnicodeEscaperTest.java",
-      "description": "## Generated Test Example\n\nThis test was **automatically generated** by the MCP tool!\n\nThe tool:\n1. Identified `UnicodeEscaper.<init>()` as uncovered\n2. Generated a targeted JUnit 4 test\n3. Added it to the existing test file\n4. Improved coverage for this class\n\nLet's see this in action in the terminal...",
-      "line": 1
-    },
-    {
-      "title": "Live Demo - Terminal Workflow",
-      "description": "## Terminal Demo\n\nNow let's run the workflow live:\n\n### Step 1: Start MCP Server\n```powershell\ncd mcp-agent\npython server.py\n```\n\n### Step 2: Use MCP Tools (via VS Code Chat or Claude Desktop)\n- Run `find_first_uncovered_method`\n- Run `generate_targeted_junit_test`\n- Run `git_add_all` → `git_commit` → `git_push`\n\n### Step 3: Verify Coverage\n```powershell\ncd codebase\nmvn clean verify\n```\n\n### Step 4: Check Improvement\nOpen `target/site/jacoco/index.html` and compare with baseline in `coverage_history.md`\n\n**Pause here to demo in terminal, then continue tour...**"
-    },
-    {
-      "file": "mcp-agent/docs/reflection.pdf",
-      "description": "## Team Reflection\n\nOur full reflection document covers:\n- Development approach and methodology\n- Challenges encountered (path issues, test quality, JaCoCo quirks)\n- What we learned about AI-assisted development\n- Future improvements (batch generation, smarter targeting)\n\nThis demonstrates the complete software engineering process, not just code."
-    },
-    {
-      "file": "README.md",
-      "description": "## Demo Complete!\n\n### What We Showed:\n✅ Baseline coverage measurement\n✅ MCP server architecture\n✅ Automated test generation\n✅ Git workflow automation\n✅ Coverage improvement verification\n\n### Key Achievements:\n- Portable, repo-relative paths\n- Targeted test generation (one method at a time)\n- Full automation: coverage → test → commit → verify\n- Measurable improvement tracking\n\n### Next Steps:\n- Merge this branch to `main`\n- Continue iterative coverage improvement\n- Explore batch test generation\n\nThank you for watching!",
+      "file": "codebase/src/test/java/org/apache/commons/lang3/builder/StandardToStringStyleExtendedTest.java",
+      "description": "## ✅ Generated Test Example & Workflow\n\n**Example Test Generated by MCP Agent:**\n\n```java\n@Test\npublic void testUseClassNameGetterSetter() {\n    assertTrue(\"Default useClassName should be true\", style.isUseClassName());\n    style.setUseClassName(false);\n    assertFalse(\"useClassName should be false after setting\", style.isUseClassName());\n}\n```\n\n**Automated Workflow:**\n\n1. **Coverage Analysis** - Identify low-coverage classes (<90% coverage, >50 instructions)\n2. **Source Retrieval** - Fetch class source code for context\n3. **Test Generation** - Create targeted JUnit 4 tests (basic/boundary/null_safety)\n4. **Git Workflow** - Automated commit with descriptive messages\n5. **Verification** - Re-run Maven verify to measure impact\n\n**Example Commands:**\n```powershell\n@tester improve coverage for [ClassName]\n```\n\nThe system analyzes source code patterns and generates idiomatic tests that:\n- Follow JUnit 4 conventions\n- Include descriptive assertion messages\n- Cover edge cases (null, boundary, exceptions)\n- Mirror existing test patterns in the codebase\n\n**Key Insight:**\nContext-aware generation produces maintainable tests by understanding actual implementation details, not just signatures.",
       "line": 1
     }
   ],
