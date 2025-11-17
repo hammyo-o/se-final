@@ -18,15 +18,15 @@
       "line": 118
     },
     {
-      "file": "codebase/pom.xml",
-      "description": "## JaCoCo Configuration\n\nJaCoCo is configured in Maven to:\n- Run during the `verify` phase\n- Generate XML reports at `target/site/jacoco/jacoco.xml`\n- Create HTML reports for visualization\n- Track instruction and branch coverage\n\nThis is what powers our automated coverage measurement.",
-      "line": 140,
-      "pattern": "jacoco-maven-plugin"
-    },
-    {
       "file": "mcp-agent/server.py",
       "description": "## MCP Server - The Brain\n\nThis FastMCP server exposes tools for:\n\n1. **`run_maven_coverage_report`** - Build & generate JaCoCo\n2. **`find_first_uncovered_method`** - Locate next target\n3. **`generate_targeted_junit_test`** - Create focused test\n4. **`git_add_all`**, **`git_commit`**, **`git_push`** - Automate Git workflow\n\nAll paths are now repo-relative, making the system portable.",
       "line": 1
+    },
+    {
+      "file": "codebase/pom.xml",
+      "description": "## JaCoCo Configuration\n\nJaCoCo is configured in Maven to:\n- Run during the `verify` phase\n- Generate XML reports at `target/site/jacoco/jacoco.xml`\n- Create HTML reports for visualization\n- Track instruction and branch coverage\n\nThis is what powers our automated coverage measurement.",
+      "line": 145,
+      "pattern": "jacoco-maven-plugin"
     },
     {
       "file": "mcp-agent/coverage_parser.py",
