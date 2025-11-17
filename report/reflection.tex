@@ -1,95 +1,38 @@
 \documentclass[12pt]{article}
 \usepackage{geometry}
 \geometry{margin=1in}
-\usepackage{setspace}
 \usepackage{times}
 
 \title{Reflection Report: MCP Automated Testing Agent}
-\author{Leonardo Diaz, Hammy Siddiqui}
-\date{}
+\author{Leonardo Diaz \and Hammy Siddiqui}
+\date{November 17, 2025}
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-    This reflection explains how we built an MCP agent that runs Maven tests,
-    manages Git commands, and generates specification-based tests automatically.
-    We describe how we approached the problem, what kinds of improvements we
-    noticed in the project’s test coverage, and what we learned about using AI
-    to help with software development. We also include recommendations for
-    future improvements to the project.
+This report summarizes our development of an MCP-based automated testing agent that runs Maven tests, executes Git commands, and generates specification-driven JUnit tests. We describe the setup process, interaction with VS Code Chat, coverage improvements observed from generated tests, and the challenges experienced while relying on AI during development. We conclude with lessons learned and recommendations for future enhancements.
 \end{abstract}
 
 \section{Introduction}
-    For this assignment, we created a custom MCP (Model Context Protocol) server
-    that connects with VS Code Chat and allows us to run tests, commit code, and
-    generate new tests automatically. The main idea behind the project was to
-    explore how automated tools and AI can improve the software development
-    workflow. Since we are still learning about automation and testing, this
-    project helped us understand how these tools can speed things up and reduce
-    mistakes we would normally make by hand.
+Our project involved building a custom Model Context Protocol (MCP) server that integrates with VS Code Chat to automate software development tasks. The agent can run Maven tests, handle Git operations, and create basic JUnit tests based on equivalence-class specifications. Our goal was to understand how automation and AI tools could reduce manual effort and improve testing quality. Working through this project also exposed us to how unpredictable AI-assisted workflows can be when context is unclear or when tasks require multiple steps.
 
 \section{Methodology}
-    Our approach was straightforward. First, we set up the MCP server and added
-    tools for running Maven tests and Git commands. Then we made a tool that
-    generates JUnit tests based on simple specifications, such as checking
-    positive, negative, and zero inputs. After that, we tested everything using
-    the VS Code Chat interface, which let us call the tools by typing messages.
+We began by configuring the MCP environment and implementing tools for test execution and Git commands. Afterwards, we added a simple test-generation tool that produced JUnit templates using categories such as negative, zero, and positive inputs. We evaluated the generated tests by running them on a Java project and checking for changes in coverage. All interactions with the agent occurred through VS Code Chat, which allowed us to call tools directly but also introduced challenges when the agent misinterpreted instructions or ended tasks prematurely.
 
-    To evaluate how useful the generated tests were, we compared the original
-    test suite with the new tests created by the MCP tool. We also observed how
-    often the tests caught issues or improved the overall coverage.
-
-\section{Results}
+\section{Results \& Discussion}
 
 \subsection{Coverage Improvement Patterns}
-    Even though the agent only produced a small set of tests, we still noticed
-    some coverage improvements. The original project focused mostly on regular
-    input values, but the automatically generated tests forced the program to
-    handle extreme values like \texttt{Integer.MAX\_VALUE} and
-    \texttt{Integer.MIN\_VALUE}. These edge cases increased branch and statement
-    coverage in parts of the code that were not originally exercised.
+Even though the test generator was limited, it increased coverage in meaningful ways. The generated tests exercised edge cases like integer extremes and missing equivalence classes, improving both branch and statement coverage in parts of the code not originally tested. The AI consistently added negative, zero, and positive cases, which expanded the testing surface beyond what was manually included.
 
-    We also saw that using AI-generated tests made it easier to fill in missing
-    equivalence classes. For example, the tool consistently created tests for
-    negative, zero, and positive values, which helped reveal patterns in the
-    function’s behavior. This made the overall testing feel more complete, even
-    though the tool was simple.
+\subsection{Insights from AI-Assisted Development}
+Working with VS Code Chat taught us that AI tools can speed up repetitive tasks but are extremely fickle. The agent frequently required very specific context, and small phrasing differences caused it to stop early, skip steps, or forget previous instructions. Despite this, the generated tests helped reinforce testing concepts such as boundary analysis and equivalence classes. AI assistance was most useful for producing quick templates and for helping us debug unclear behaviors, though it often needed corrections or clarifications.
 
-\subsection{Lessons Learned About AI-Assisted Development}
-    One of the main things we learned is that AI tools are effective at handling
-    repetitive tasks, such as writing basic test cases. Instead of us having to
-    manually write each test, the MCP tool could generate them instantly. This
-    saved time and reduced the chances of forgetting important edge cases.
-
-    We also learned that AI can help students like us understand testing
-    strategies more clearly. By examining the structure of the tests generated
-    by the tool, we gained a better understanding of how equivalence classes and
-    boundary value analysis work in practice. Even though the AI is not perfect,
-    it provides a starting point that we can improve.
-
-\subsection{Future Enhancements}
-    There are several improvements we would like to add in the future. First, we
-    would expand the test generation tool so that it can analyze the source code
-    and detect functions automatically, instead of supporting only one function.
-    We would also include more advanced forms of testing, such as decision
-    coverage or mutation testing, to improve fault detection.
-
-    Another helpful improvement would be stronger integration with GitHub
-    Actions. Currently, the MCP agent runs tests locally, but it would be useful
-    if it could also check CI results or automatically update pull requests.
-
-    Finally, adding a reporting tool that displays coverage percentages or failed
-    test trends would make the agent even more helpful for debugging and
-    learning.
+\subsection{Recommendations for Future Enhancements}
+Future improvements could include automated detection of functions to test, deeper coverage strategies such as mutation or decision coverage, and improved error handling within the MCP tools. Integrating GitHub Actions or CI verification would help connect the agent to real development pipelines. Adding automated reporting tools for coverage trends or repeated failures would also make the agent more practical for debugging.
 
 \section{Conclusion}
-    Overall, this project taught us a lot about automating software development
-    using MCP tools. We saw how AI can support testing, improve coverage, and
-    streamline common tasks such as running Maven or committing changes. Even as
-    beginners, we were able to build useful automation features with relatively
-    simple code. In the future, expanding the agent with more advanced testing
-    strategies and CI integrations would make it even more powerful.
+Developing the MCP testing agent showed us the strengths and weaknesses of AI-assisted workflows. The automation improved coverage by introducing edge cases and reducing manual testing effort, while also revealing how sensitive AI tools can be to missing context. Overall, the project improved our understanding of testing strategies, automation infrastructure, and the importance of precise instructions when relying on AI tools.
 
 \end{document}
