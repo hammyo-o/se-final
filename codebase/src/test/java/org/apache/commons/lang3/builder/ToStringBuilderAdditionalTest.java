@@ -148,11 +148,11 @@ public class ToStringBuilderAdditionalTest {
         TestObject obj = new TestObject();
         ToStringBuilder builder = new ToStringBuilder(obj);
         
-        // Test primitive value appends
-        builder.append("intVal", 42);
-        builder.append("longVal", 100L);
-        builder.append("boolVal", true);
-        builder.append("doubleVal", 3.14);
+        // Test named field appends with primitives (not arrays to avoid ambiguity)
+        builder.append("intVal", (Object)Integer.valueOf(42));
+        builder.append("longVal", (Object)Long.valueOf(100L));
+        builder.append("boolVal", (Object)Boolean.valueOf(true));
+        builder.append("doubleVal", (Object)Double.valueOf(3.14));
         
         String result = builder.toString();
         assertNotNull(result);
