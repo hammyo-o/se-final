@@ -244,21 +244,35 @@ The challenge was that earlier tests exercised already-covered code paths. Succe
 | FormatCache | 16 | 89.0% | 89.0% | ✅ Cache & concurrency |
 | **Overall Project** | **2397→2582** | **95.77%** | **95.77%** | ✅ +185 tests |
 
+**Notes:**
+
+- Cycle 1: SerializationUtils - 13 tests (null handling, boundary values, IOException, nested objects)
+- Cycle 2: FastDateFormat - 18 tests (format with StringBuffer, parse methods, equals/hashCode, accessors)
+- Cycle 3: TypeUtils - 26 tests (null assignability, type variables, wildcards, generic arrays, bounds)
+- Cycle 4: FormatCache - 16 tests (caching behavior, concurrent access, null handling, locales)
+- All 73 new tests pass (100% pass rate), +112 tests from previous sessions
+- Coverage stable at 95.77% (52862/55198 instructions) due to very high baseline
+- Tests significantly improve robustness and edge case handling across reflection and time utilities
+- 74 pre-existing ToStringBuilderTest failures documented as known issue
+
 ---
 
 ### 📊 Complete Journey: Original Codebase → Current State
 
 **Starting Point (Original Baseline):**
+
 - 📦 **Test Files:** 128 files in `originaloldcodebase`
 - 🧪 **Test Count:** ~2,295 tests
 - 📈 **Coverage:** ~94.95% instruction (baseline before improvements)
 
 **Current State (After All Improvements):**
+
 - 📦 **Test Files:** 147 files (+19 new test files)
 - 🧪 **Test Count:** 2,582 tests (**+287 tests added**)
 - 📈 **Coverage:** 95.77% instruction (**+0.82 percentage points**)
 
 **Test Files Added:**
+
 1. SerializationUtilsAdditionalTest.java (13 tests)
 2. FastDateFormatAdditionalTest.java (18 tests)
 3. TypeUtilsAdditionalTest.java (26 tests)
@@ -271,22 +285,12 @@ The challenge was that earlier tests exercised already-covered code paths. Succe
 10. *Plus 10 more test files from earlier sessions*
 
 **Impact Summary:**
+
 - ✅ **287 new tests** added across 19 test files
 - ✅ **+0.82%** coverage improvement from very high baseline (94.95%→95.77%)
 - ✅ **100% pass rate** for all new tests
 - ✅ **19 commits** pushed with detailed coverage metrics
 - ✅ Significant robustness improvements in reflection, serialization, time formatting, and builder utilities
-
-**Notes:**
-
-- Cycle 1: SerializationUtils - 13 tests (null handling, boundary values, IOException, nested objects)
-- Cycle 2: FastDateFormat - 18 tests (format with StringBuffer, parse methods, equals/hashCode, accessors)
-- Cycle 3: TypeUtils - 26 tests (null assignability, type variables, wildcards, generic arrays, bounds)
-- Cycle 4: FormatCache - 16 tests (caching behavior, concurrent access, null handling, locales)
-- All 73 new tests pass (100% pass rate), +112 tests from previous sessions
-- Coverage stable at 95.77% (52862/55198 instructions) due to very high baseline
-- Tests significantly improve robustness and edge case handling across reflection and time utilities
-- 74 pre-existing ToStringBuilderTest failures documented as known issue
 
 ## Troubleshooting & FAQ
 
