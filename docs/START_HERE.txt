@@ -1,11 +1,11 @@
 START HERE
 ---------
 
-For setup and usage, see `README.md`.
+For setup and usage, see `../README.md`.
 
 Quick coverage run (Windows PowerShell):
 
     cd codebase
     mvn clean verify -D maven.test.failure.ignore=true
 
-Details: `TEST_COVERAGE_WORKFLOW.md`.
+Details: `TEST_COVERAGE_WORKFLOW.md` (in this directory).

@@ -7,14 +7,20 @@
 
 An intelligent MCP (Model Context Protocol) server that automates test generation, coverage analysis, and Git workflows for Apache Commons Lang3. Integrates with VS Code to provide AI-assisted targeted testing that measurably improves code coverage.
 
+**📚 Documentation:**
+
+- **[Quick Start Guide](docs/TEST_COVERAGE_WORKFLOW.md)** - Build and generate coverage in 2 commands
+- **[MCP Setup Complete](docs/MCP_SETUP_COMPLETE.md)** - Full feature overview and agent capabilities
+- **[Agent Workflow](/.github/prompts/tester.prompt.md)** - Iterative testing instructions for AI agents
+
 **Project Highlights:**
 
 - 🤖 10 intelligent MCP tools for complete test-to-commit automation
 - 🔄 Iterative workflow with automatic coverage tracking and Git integration
+- 📊 Current coverage: 95.77% instruction, 91.73% branch
 - [Demo Workflow](#demo-workflow)
 - [Project Structure](#project-structure)
 - [Troubleshooting & FAQ](#troubleshooting--faq)
-- [Key Features & Technical Notes](#key-features--technical-notes)
 
 ## Quick Start
 
@@ -101,7 +107,7 @@ start target/site/jacoco/index.html
 
 **Autonomous Testing Workflow - 5 Commits:**
 
-**Phase 1: Fix Failing Tests (Commits 1-3)**
+### Phase 1: Fix Failing Tests (Commits 1-3)
 
 - ✅ Fixed 6 critical test failures (all 2397 tests now pass)
 - ✅ Improved hex number parsing in NumberUtils (0x80000000, 0x007FFFFFFF, 0x8000000000000000)
@@ -111,7 +117,7 @@ start target/site/jacoco/index.html
 - ✅ Consolidated redundant documentation files
 - ✅ All changes committed and pushed to GitHub
 
-**Phase 2: Test Generation (Commits 4-5)**
+### Phase 2: Test Generation (Commits 4-5)
 
 - ✅ Generated 26 new tests across 3 target classes
 - ✅ StandardToStringStyleAdditionalTest: 6 getter/setter tests
@@ -283,10 +289,13 @@ A: Complex reflection/generics logic requires sophisticated test scenarios beyon
 
 ```text
 finalproject/
+├── README.md                      # You are here - main documentation
+├── .gitignore                     # Git ignore rules
+│
 ├── codebase/                      # Apache Commons Lang3 (target project)
 │   ├── src/main/java/             # 109 production Java files
 │   │   └── org/apache/commons/lang3/
-│   ├── src/test/java/             # 130+ test files (2,385 tests)
+│   ├── src/test/java/             # 144 test files (2,500+ tests)
 │   │   └── org/apache/commons/lang3/
 │   ├── pom.xml                    # Maven + JaCoCo configuration
 │   └── target/site/jacoco/        # Generated coverage reports
@@ -297,34 +306,44 @@ finalproject/
 │   ├── server.py                  # FastMCP with 10 intelligent tools
 │   ├── coverage_parser.py         # JaCoCo XML parser
 │   ├── test_generator.py          # JUnit 4 template engine
-│   ├── git_tools.py               # Git automation (legacy)
 │   └── requirements.txt           # Python dependencies
 │
-├── report/                        # Final Deliverables
-│   ├── reflection.tex             # LaTeX source
-│   └── reflection.pdf             # Compiled reflection document
+├── docs/                          # Documentation
+│   ├── TEST_COVERAGE_WORKFLOW.md  # Quick start guide
+│   ├── MCP_SETUP_COMPLETE.md      # MCP server features
+│   ├── START_HERE.txt             # Quick reference
+│   └── coverage_history.md        # Historical metrics
 │
-├── .github/prompts/               # VS Code Agent Integration
-│   └── tester.prompt.md           # Agent workflow instructions
+├── scripts/                       # Utility Scripts
+│   ├── analyze_coverage.py        # Parse JaCoCo for low-coverage classes
+│   ├── analyze_typeutils.py       # Method-level branch analysis
+│   ├── get_coverage.py            # Quick coverage summary
+│   ├── coverage_summary.py        # Detailed coverage report
+│   └── coverage_summary_for.py    # Coverage for specific classes
+│
+├── .github/prompts/               # AI Agent Instructions
+│   └── tester.prompt.md           # Iterative testing workflow
 │
 ├── .tours/                        # VS Code CodeTour
-│   └── mcp-test-generation-demo.tour  # Interactive demo guide
+│   └── mcp-test-generation-demo.tour  # Interactive demo
 │
-├── docs/                          # Documentation
-│   └── coverage_history.md        # Historical metrics tracking
+├── .vscode/                       # VS Code Configuration
+│   └── settings.json              # MCP agent configuration
 │
-└── scripts/                       # Utility Scripts
-    ├── coverage_summary.py        # Coverage aggregator
-    └── analyze_coverage.py        # JaCoCo analyzer
+└── report/                        # Academic Deliverables
+    ├── reflection.tex             # LaTeX source
+    └── reflection.pdf             # Compiled reflection document
 ```
 
 ### Key Files
 
+- **`README.md`**: Main documentation (you are here)
+- **`docs/TEST_COVERAGE_WORKFLOW.md`**: Quick start guide for building and testing
 - **`codebase/pom.xml`**: Maven configuration with JaCoCo 0.8.12 plugin
 - **`mcp-agent/server.py`**: Core MCP server (~400 lines) with 10 tools
-- **`report/reflection.pdf`**: Complete project reflection (methodology, results, insights)
 - **`.github/prompts/tester.prompt.md`**: Agent instructions for automated workflow
-- **`.tours/mcp-test-generation-demo.tour`**: Interactive demonstration walkthrough
+- **`scripts/analyze_coverage.py`**: Identify low-coverage classes from JaCoCo reports
+- **`report/reflection.pdf`**: Complete project reflection (methodology, results, insights)
 
 ## Key Features & Technical Notes
 
@@ -367,10 +386,12 @@ finalproject/
 
 ## Additional Resources
 
-- **Reflection Document**: `report/reflection.pdf` - Full technical report
-- **Code Tour**: `.tours/mcp-test-generation-demo.tour` - Interactive demo
-- **Agent Prompt**: `.github/prompts/tester.prompt.md` - Workflow instructions
-- **Coverage History**: `docs/coverage_history.md` - Metrics tracking
+- **[Quick Start Guide](docs/TEST_COVERAGE_WORKFLOW.md)** - Build and run coverage in 2 commands
+- **[MCP Setup Guide](docs/MCP_SETUP_COMPLETE.md)** - Full MCP server capabilities
+- **[Agent Workflow](/.github/prompts/tester.prompt.md)** - Iterative testing instructions
+- **[Reflection Document](report/reflection.pdf)** - Complete technical report
+- **[Code Tour](.tours/mcp-test-generation-demo.tour)** - Interactive demonstration
+- **[Coverage History](docs/coverage_history.md)** - Historical metrics tracking
 
 ## Contributors
 
