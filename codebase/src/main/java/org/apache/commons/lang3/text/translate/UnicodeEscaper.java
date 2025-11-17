@@ -32,13 +32,6 @@ public class UnicodeEscaper extends CodePointTranslator {
     private final boolean between;
 
     /**
-     * <p>Constructs a <code>UnicodeEscaper</code> for all characters. </p>
-     */
-    public UnicodeEscaper(){
-        this(0, Integer.MAX_VALUE, true);
-    }
-
-    /**
      * <p>Constructs a <code>UnicodeEscaper</code> for the specified range. This is
      * the underlying method for the other constructors/builders. The <code>below</code>
      * and <code>above</code> boundaries are inclusive when <code>between</code> is

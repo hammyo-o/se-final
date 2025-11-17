@@ -144,7 +144,16 @@ public class FieldUtilsTest {
         assertArrayEquals(fieldsNumber, FieldUtils.getAllFields(Number.class));
         final Field[] fieldsInteger = Integer.class.getDeclaredFields();
         assertArrayEquals(ArrayUtils.addAll(fieldsInteger, fieldsNumber), FieldUtils.getAllFields(Integer.class));
-        assertEquals(5, FieldUtils.getAllFields(PublicChild.class).length);
+        // PublicChild has 1 static field (VALUE), Parent has 4 fields (s, b, i, d), Total = 5 non-synthetic fields
+        // Java 8+ may add synthetic fields like $jacocoData, so we filter them out
+        final Field[] allFields = FieldUtils.getAllFields(PublicChild.class);
+        int nonSyntheticCount = 0;
+        for (Field f : allFields) {
+            if (!f.isSynthetic()) {
+                nonSyntheticCount++;
+            }
+        }
+        assertEquals(5, nonSyntheticCount);
     }
 
     private <T> List<T> asArrayList(T... values) {
@@ -164,7 +173,16 @@ public class FieldUtilsTest {
         final List<Field> allFieldsInteger = new ArrayList<Field>(fieldsInteger);
         allFieldsInteger.addAll(fieldsNumber);
         assertEquals(allFieldsInteger, FieldUtils.getAllFieldsList(Integer.class));
-        assertEquals(5, FieldUtils.getAllFieldsList(PublicChild.class).size());
+        // PublicChild has 1 static field (VALUE), Parent has 4 fields (s, b, i, d), Total = 5 non-synthetic fields
+        // Java 8+ may add synthetic fields like $jacocoData, so we filter them out
+        final List<Field> allFields = FieldUtils.getAllFieldsList(PublicChild.class);
+        int nonSyntheticCount = 0;
+        for (Field f : allFields) {
+            if (!f.isSynthetic()) {
+                nonSyntheticCount++;
+            }
+        }
+        assertEquals(5, nonSyntheticCount);
     }
 
     @Test
