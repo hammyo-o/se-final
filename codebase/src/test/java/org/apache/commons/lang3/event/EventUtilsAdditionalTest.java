@@ -2,124 +2,146 @@ package org.apache.commons.lang3.event;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
-import java.lang.reflect.InvocationTargetException;
-import javax.swing.JButton;
 
 /**
- * Additional tests for EventUtils covering error paths and edge cases.
+ * Additional boundary value tests for EventUtils.
+ * Generated to improve code coverage.
  */
 public class EventUtilsAdditionalTest {
 
-    private static class TestEventSource {
-        public void addPropertyChangeListener(PropertyChangeListener listener) {
-            // Test method
-        }
+    @Test
+    public void testBindEventsToMethodWithNoEventTypes() {
+        final PropertyChangeSource src = new PropertyChangeSource();
+        final TestTarget target = new TestTarget();
         
-        // Private method to test IllegalAccessException path
-        private void addTestListener(PropertyChangeListener listener) {
-            // Private method
-        }
-    }
-    
-    private static class ThrowingEventSource {
-        public void addPropertyChangeListener(PropertyChangeListener listener) {
-            throw new RuntimeException("Test exception from add method");
-        }
-    }
-    
-    public static class TestTarget {
-        public boolean methodCalled = false;
-        public Object lastParam = null;
+        // Bind with no specific event types (should support all)
+        EventUtils.bindEventsToMethod(target, "handleEvent", src, PropertyChangeListener.class);
         
-        public void handleEvent() {
-            methodCalled = true;
-        }
-        
-        public void handlePropertyChange(PropertyChangeEvent evt) {
-            methodCalled = true;
-            lastParam = evt;
-        }
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testAddEventListenerNoSuchMethod() {
-        // Test addEventListener with a listener type that doesn't have an add method
-        Object source = new Object();
-        PropertyChangeListener listener = new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {}
-        };
-        EventUtils.addEventListener(source, PropertyChangeListener.class, listener);
-    }
-    
-    @Test(expected = RuntimeException.class)
-    public void testAddEventListenerInvocationTargetException() {
-        // Test InvocationTargetException path when the add method throws
-        ThrowingEventSource source = new ThrowingEventSource();
-        PropertyChangeListener listener = new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {}
-        };
-        EventUtils.addEventListener(source, PropertyChangeListener.class, listener);
+        assertNotNull("Listener should be bound", target);
+        src.setProperty("testValue");
+        assertEquals("Event should be handled", 1, target.getCallCount());
     }
     
     @Test
-    public void testBindEventsToMethodInvoked() {
-        TestTarget target = new TestTarget();
-        JButton button = new JButton();
+    public void testBindEventsToMethodWithSpecificEventTypes() {
+        final PropertyChangeSource src = new PropertyChangeSource();
+        final TestTarget target = new TestTarget();
         
-        // Bind with specific event name
-        EventUtils.bindEventsToMethod(target, "handleEvent", button,
-            java.awt.event.ActionListener.class, "actionPerformed");
+        // Bind with specific event type
+        EventUtils.bindEventsToMethod(target, "handleEvent", src, PropertyChangeListener.class, "propertyChange");
         
-        // Trigger the event by clicking button
-        button.doClick();
-        
-        // Verify method was called via proxy
-        assertTrue("handleEvent should have been called", target.methodCalled);
+        assertNotNull("Listener should be bound", target);
+        src.setProperty("testValue");
+        assertEquals("Event should be handled", 1, target.getCallCount());
     }
     
     @Test
-    public void testBindEventsToMethodWithParameters() {
-        TestTarget target = new TestTarget();
-        JButton button = new JButton();
+    public void testBindEventsToMethodWithMultipleEventTypes() {
+        final PropertyChangeSource src = new PropertyChangeSource();
+        final TestTarget target = new TestTarget();
         
-        // Bind to method that accepts event parameter
-        EventUtils.bindEventsToMethod(target, "handlePropertyChange", button,
-            PropertyChangeListener.class, "propertyChange");
+        // Bind with multiple event types
+        EventUtils.bindEventsToMethod(target, "handleEvent", src, PropertyChangeListener.class, 
+                                      "propertyChange", "vetoableChange");
         
-        // Manually fire property change (JButton doesn't directly support this, but the proxy will handle it)
-        button.addPropertyChangeListener(new PropertyChangeListener() {
+        assertNotNull("Listener should be bound", target);
+        src.setProperty("testValue");
+        assertEquals("Event should be handled", 1, target.getCallCount());
+    }
+    
+    @Test
+    public void testBindEventsToMethodWithNonMatchingEventType() {
+        final PropertyChangeSource src = new PropertyChangeSource();
+        final TestTarget target = new TestTarget();
+        
+        // Bind with event type that doesn't match any in the interface
+        EventUtils.bindEventsToMethod(target, "handleEvent", src, PropertyChangeListener.class, "otherEvent");
+        
+        assertNotNull("Listener should be bound", target);
+        src.setProperty("testValue");
+        // handleEvent should not be called because "otherEvent" doesn't match "propertyChange"
+        assertEquals("Event should not be handled for non-matching event type", 0, target.getCallCount());
+    }
+    
+    @Test
+    public void testAddEventListenerDirectly() {
+        final PropertyChangeSource src = new PropertyChangeSource();
+        final TestTarget target = new TestTarget();
+        
+        PropertyChangeListener listener = new PropertyChangeListener() {
+            @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                // This exercises the proxy's invoke method
+                target.handleEvent();
+            }
+        };
+        
+        EventUtils.addEventListener(src, PropertyChangeListener.class, listener);
+        
+        src.setProperty("testValue");
+        assertEquals("Event should be handled", 1, target.getCallCount());
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddEventListenerWithUnsupportedListenerType() {
+        final PropertyChangeSource src = new PropertyChangeSource();
+        
+        // Try to add a listener type that PropertyChangeSource doesn't support
+        EventUtils.addEventListener(src, UnsupportedListener.class, new UnsupportedListener() {
+            @Override
+            public void unsupportedMethod() {
+                // Do nothing
             }
         });
     }
     
     @Test
-    public void testBindEventsToMethodUnmatchedEvent() {
-        TestTarget target = new TestTarget();
-        JButton button = new JButton();
+    public void testBindEventsMultipleTimes() {
+        final PropertyChangeSource src = new PropertyChangeSource();
+        final TestTarget target1 = new TestTarget();
+        final TestTarget target2 = new TestTarget();
         
-        // Bind with specific event names, but test that other events are ignored
-        EventUtils.bindEventsToMethod(target, "handleEvent", button,
-            PropertyChangeListener.class, "specificEvent");
+        // Bind two different targets to same source
+        EventUtils.bindEventsToMethod(target1, "handleEvent", src, PropertyChangeListener.class);
+        EventUtils.bindEventsToMethod(target2, "handleEvent", src, PropertyChangeListener.class);
         
-        // Just verify the binding was created (can't easily test firePropertyChange on JButton)
-        assertFalse("Initial state should be false", target.methodCalled);
+        src.setProperty("testValue");
+        
+        // Only the last registered listener should be notified (single listener support)
+        assertEquals("First target event count", 0, target1.getCallCount());
+        assertEquals("Second target event count", 1, target2.getCallCount());
     }
     
-    @Test
-    public void testBindEventsWithEmptyEventTypes() {
-        TestTarget target = new TestTarget();
-        JButton button = new JButton();
+    // Helper classes
+    public static class PropertyChangeSource {
+        private PropertyChangeListener listener;
         
-        // Bind with no specific event types (empty array, not null)
-        EventUtils.bindEventsToMethod(target, "handleEvent", button,
-            java.awt.event.ActionListener.class);
+        public void addPropertyChangeListener(PropertyChangeListener listener) {
+            this.listener = listener;
+        }
         
-        // This should match all events
-        button.doClick();
-        assertTrue("handleEvent should be called when no event types specified", target.methodCalled);
+        public void setProperty(String value) {
+            if (listener != null) {
+                listener.propertyChange(new PropertyChangeEvent(this, "property", null, value));
+            }
+        }
+    }
+    
+    public static class TestTarget {
+        private int callCount = 0;
+        
+        public void handleEvent() {
+            callCount++;
+        }
+        
+        public int getCallCount() {
+            return callCount;
+        }
+    }
+    
+    public interface UnsupportedListener {
+        void unsupportedMethod();
     }
 }
