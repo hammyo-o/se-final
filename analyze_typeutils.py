@@ -10,10 +10,12 @@ target_class = sys.argv[2] if len(sys.argv) > 2 else 'Conversion'
 
 # Find target class
 for package in root.findall('.//package'):
-    if package.get('name') == target_package:
+    pkg_name = package.get('name')
+    if pkg_name == target_package:
         for cls in package.findall('class'):
-            if target_class in cls.get('name') and cls.get('name').endswith(target_class):
-                print(f"Class: {cls.get('name')}\n")
+            cls_name = cls.get('name')
+            if cls_name and target_class in cls_name and cls_name.endswith(target_class):
+                print(f"Class: {cls_name}\n")
                 
                 # Find methods with missed branches
                 methods = []
@@ -25,9 +27,13 @@ for package in root.findall('.//package'):
                     covered_branches = 0
                     
                     for counter in method.findall('counter'):
-                        if counter.get('type') == 'BRANCH':
-                            missed_branches = int(counter.get('missed'))
-                            covered_branches = int(counter.get('covered'))
+                        counter_type = counter.get('type')
+                        if counter_type == 'BRANCH':
+                            missed_str = counter.get('missed')
+                            covered_str = counter.get('covered')
+                            if missed_str is not None and covered_str is not None:
+                                missed_branches = int(missed_str)
+                                covered_branches = int(covered_str)
                     
                     if missed_branches > 0:
                         methods.append((method_name, method_desc, missed_branches, covered_branches))
