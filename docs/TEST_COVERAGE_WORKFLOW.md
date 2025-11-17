@@ -4,8 +4,10 @@ Focused, up-to-date steps for building, generating coverage, and iterating.
 
 ## Prerequisites
 
-- Java (JDK) and Maven installed and on PATH
-- Optional: Python 3 if you plan to run the MCP server
+- **JDK 8** - For building Apache Commons Lang3 codebase
+- **JDK 21** - For running MCP agent (optional, if using automation)
+- **Maven** - Installed and on PATH
+- **Python 3.13+** - For running MCP server (optional, if using automation)
 
 ## Build + Generate Coverage
 
