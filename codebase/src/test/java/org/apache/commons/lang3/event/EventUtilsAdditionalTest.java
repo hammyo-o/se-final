@@ -29,7 +29,7 @@ public class EventUtilsAdditionalTest {
         }
     }
     
-    private static class TestTarget {
+    public static class TestTarget {
         public boolean methodCalled = false;
         public Object lastParam = null;
         
