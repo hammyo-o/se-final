@@ -51,7 +51,7 @@ For each target class:
 
 ### Cycle 4: Fix Failing Tests
 If you encounter test failures:
-1. **Run `identify_failing_tests()`** to get the list
+1. **Run `identify_failing_tests()`** to get the list 
 2. **Analyze** why tests are failing (could be bugs in the main code!)
 3. **Fix the bugs** in the source code OR fix incorrect test expectations
 4. **Commit the fixes** with descriptive messages
