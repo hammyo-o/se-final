@@ -111,7 +111,7 @@ start target/site/jacoco/index.html
 |------|---------|-------------|
 | `generate_junit4_tests()` | Create targeted JUnit 4 test suites | Supports basic, boundary, and null_safety test types; proper package structure |
 
-### Git Automation Tools
+### Git Automation & Documentation Tools
 
 | Tool | Purpose | Key Features |
 |------|---------|-------------|
@@ -119,6 +119,7 @@ start target/site/jacoco/index.html
 | `git_add_all()` | Stage all changes | Respects .gitignore rules |
 | `git_commit()` | Commit with descriptive message | Includes coverage metrics in commit messages |
 | `git_push()` | Push to remote repository | Auto-detects branch, configurable remote |
+| `update_coverage_history()` | **NEW**: Track coverage improvements | Automatically appends metrics to mcp-agent/docs/coverage_history.md with timestamps after each test cycle |
 
 ### Intelligent Features
 

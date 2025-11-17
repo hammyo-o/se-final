@@ -464,14 +464,42 @@ public class NumberUtils {
             }
         }
         if (pfxLen > 0) { // we have a hex number
-            final int hexDigits = str.length() - pfxLen;
-            if (hexDigits > 16) { // too many for Long
+            // Determine the number of significant hex digits (excluding leading zeros)
+            String hexPart = str.substring(pfxLen);
+            // Count leading zeros
+            int leadingZeros = 0;
+            for (int i = 0; i < hexPart.length(); i++) {
+                if (hexPart.charAt(i) == '0') {
+                    leadingZeros++;
+                } else {
+                    break;
+                }
+            }
+            final int significantHexDigits = hexPart.length() - leadingZeros;
+            
+            if (significantHexDigits > 16) { // too many for Long
                 return createBigInteger(str);
             }
-            if (hexDigits > 8) { // too many for an int
+            if (significantHexDigits > 8) { // too many for an int, try Long
+                // For 9-16 hex digits, try Long first
+                // If it's too large (16 digits and > Long.MAX_VALUE), use BigInteger
+                try {
+                    return createLong(str);
+                } catch (final NumberFormatException nfe) {
+                    // Value has 16 hex digits but > Long.MAX_VALUE (e.g., 0x8000000000000000-0xFFFFFFFFFFFFFFFF)
+                    return createBigInteger(str);
+                }
+            }
+            // For 8 or fewer significant hex digits, try Integer first.
+            // If the value is too large (e.g., 0x80000000), Integer.decode will throw NumberFormatException.
+            // In that case, use Long instead.
+            try {
+                return createInteger(str);
+            } catch (final NumberFormatException nfe) {
+                // Value has <= 8 significant hex digits but > Integer.MAX_VALUE (e.g., 0x80000000-0xFFFFFFFF)
+                // These fit in a Long
                 return createLong(str);
             }
-            return createInteger(str);
         }
         final char lastChar = str.charAt(str.length() - 1);
         String mant;

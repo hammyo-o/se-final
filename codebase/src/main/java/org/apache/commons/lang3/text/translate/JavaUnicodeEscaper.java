@@ -34,7 +34,7 @@ public class JavaUnicodeEscaper extends UnicodeEscaper {
      * @return the newly created {@code UnicodeEscaper} instance
      */
     public static JavaUnicodeEscaper above(final int codepoint) {
-        return outsideOf(0, codepoint);
+        return between(codepoint, Integer.MAX_VALUE);
     }
 
     /**
@@ -47,7 +47,7 @@ public class JavaUnicodeEscaper extends UnicodeEscaper {
      * @return the newly created {@code UnicodeEscaper} instance
      */
     public static JavaUnicodeEscaper below(final int codepoint) {
-        return outsideOf(codepoint, Integer.MAX_VALUE);
+        return between(0, codepoint);
     }
 
     /**
