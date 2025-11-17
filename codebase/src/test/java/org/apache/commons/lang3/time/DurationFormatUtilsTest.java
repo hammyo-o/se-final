@@ -17,12 +17,16 @@
 
 package org.apache.commons.lang3.time;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.util.Calendar;
 import java.util.TimeZone;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 /**
  * TestCase for DurationFormatUtils.
@@ -582,6 +586,20 @@ public class DurationFormatUtilsTest {
         assertEquals("Arrays are unequal length. ", obj1.length, obj2.length);
         for (int i = 0; i < obj1.length; i++) {
             assertTrue("Index " + i + " not equal, " + obj1[i] + " vs " + obj2[i], obj1[i].equals(obj2[i]));
+        }
+    }
+
+    // Added test to directly exercise the previously uncovered convenience method formatPeriodISO.
+    @Test
+    public void testFormatPeriodISOConvenience() {
+        final TimeZone original = TimeZone.getDefault();
+        try {
+            TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
+            final long start = 0L;
+            final long end = 1234L; // 1 second and 234 milliseconds
+            assertEquals("P0Y0M0DT0H0M1.234S", DurationFormatUtils.formatPeriodISO(start, end));
+        } finally {
+            TimeZone.setDefault(original);
         }
     }
 
