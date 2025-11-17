@@ -69,66 +69,16 @@ public enum JavaVersion {
     /**
      * Java 1.8.
      */
-    JAVA_1_8(1.8f, "1.8"),
-
-    /**
-     * Java 1.8.
-     *
-     * @deprecated As of 3.5, replaced by {@link #JAVA_1_8}
-     */
-    @Deprecated
-    JAVA_EIGHT(1.8f, "1.8"),
-
-    /**
-     * Java 9.
-     * @since 3.5
-     */
-    JAVA_9(9.0f, "9"),
-
-    /**
-     * Java 10.
-     * @since 3.7
-     */
-    JAVA_10(10.0f, "10"),
-
-    /**
-     * Java 11.
-     * @since 3.8
-     */
-    JAVA_11(11.0f, "11"),
-
-    /**
-     * Java 12.
-     * @since 3.9
-     */
-    JAVA_12(12.0f, "12"),
-
-    /**
-     * Java 13.
-     * @since 3.9
-     */
-    JAVA_13(13.0f, "13"),
-
-    /**
-     * Java 25.
-     * @since 3.10
-     */
-    JAVA_25(25.0f, "25"),
-
-    /**
-     * The most recent java version.
-     * @since 3.9
-     */
-    JAVA_RECENT(26.0f, "25.0");
+    JAVA_1_8(1.8f, "1.8");
 
     /**
      * The float value.
      */
-    private final float value;
+    private float value;
     /**
      * The standard name.
      */
-    private final String name;
+    private String name;
 
     /**
      * Constructor.
@@ -179,65 +129,27 @@ public enum JavaVersion {
      * version is unknown
      */
     static JavaVersion get(final String nom) {
-        if (nom == null) {
+        if ("0.9".equals(nom)) {
+            return JAVA_0_9;
+        } else if ("1.1".equals(nom)) {
+            return JAVA_1_1;
+        } else if ("1.2".equals(nom)) {
+            return JAVA_1_2;
+        } else if ("1.3".equals(nom)) {
+            return JAVA_1_3;
+        } else if ("1.4".equals(nom)) {
+            return JAVA_1_4;
+        } else if ("1.5".equals(nom)) {
+            return JAVA_1_5;
+        } else if ("1.6".equals(nom)) {
+            return JAVA_1_6;
+        } else if ("1.7".equals(nom)) {
+            return JAVA_1_7;
+        } else if ("1.8".equals(nom)) {
+            return JAVA_1_8;
+        } else {
             return null;
         }
-        if (nom.startsWith("0.9")) {
-            return JAVA_0_9;
-        }
-        if (nom.startsWith("1.1")) {
-            return JAVA_1_1;
-        }
-        if (nom.startsWith("1.2")) {
-            return JAVA_1_2;
-        }
-        if (nom.startsWith("1.3")) {
-            return JAVA_1_3;
-        }
-        if (nom.startsWith("1.4")) {
-            return JAVA_1_4;
-        }
-        if (nom.startsWith("1.5")) {
-            return JAVA_1_5;
-        }
-        if (nom.startsWith("1.6")) {
-            return JAVA_1_6;
-        }
-        if (nom.startsWith("1.7")) {
-            return JAVA_1_7;
-        }
-        if (nom.startsWith("1.8")) {
-            return JAVA_1_8;
-        }
-        if (nom.startsWith("1.8")) {
-            return JAVA_1_8;
-        }
-        if (nom.startsWith("9")) {
-            return JAVA_9;
-        }
-        if (nom.startsWith("10")) {
-            return JAVA_10;
-        }
-        if (nom.startsWith("11")) {
-            return JAVA_11;
-        }
-        if (nom.startsWith("12")) {
-            return JAVA_12;
-        }
-        if (nom.startsWith("13")) {
-            return JAVA_13;
-        }
-        if (nom.startsWith("25")) {
-            return JAVA_25;
-        }
-        final int firstDot = nom.indexOf('.');
-        if (firstDot > -1) {
-            final String majorVersion = nom.substring(0, firstDot);
-            if (Integer.parseInt(majorVersion) >= 9) {
-                return JAVA_RECENT;
-            }
-        }
-        return null;
     }
 
     //-----------------------------------------------------------------------
